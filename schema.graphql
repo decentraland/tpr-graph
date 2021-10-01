@@ -1,0 +1,32 @@
+type ThirdParty @entity {
+  id: ID!
+  managers: [String!]
+  metadata: String!
+  resolver: String!
+  isApproved: Boolean
+  maxItems: BigInt!
+  totalItems: BigInt!
+  items: [Item!] @derivedFrom(field: "thirdParty")
+}
+
+type Item @entity {
+  id: ID! # Item URN
+  collection: String! # Collection urn
+  metadata: String!
+  contentHash: String!
+  isApproved: Boolean
+  thirdParty: ThirdParty!
+}
+
+type Tier @entity {
+  id: ID!
+  value: BigInt!
+  price: BigInt!
+}
+
+# thegraph doesn't support count operations, but we need them to paginate results
+# This entity is a workaround to this issue, but it's still not enough, as we'd need counts for more complex queries
+type Count @entity {
+  id: ID!
+  tierTotal: BigInt!
+}
