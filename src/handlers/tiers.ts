@@ -5,9 +5,12 @@ import { buildCount, buildCountFromTier } from '../modules/Count'
 export function handleTierAdded(event: TierAdded): void {
   let metric = buildCount()
 
-
   let id = metric.tierTotal.toString()
-  let tier = new Tier(id)
+
+  let tier = Tier.load(id)
+  if (tier == null) {
+    tier = new Tier(id)
+  }
 
   tier.value = event.params._tier.value
   tier.price = event.params._tier.price

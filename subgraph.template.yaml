@@ -3,38 +3,10 @@ description: Decentraland TPR
 #graft:
 #  base: QmYf4h6nbvohbxUAXF6U3sVsNvQrZz5zkNgeh6Ah4S7vts # Subgraph ID of base subgraph
 #  block: 18290388 # Block number
-repository: https://github.com/decentraland/collections-graph
+repository: https://github.com/decentraland/tpr-graph
 schema:
   file: ./schema.graphql
 dataSources:
-  # ---------------------------------------------------------
-  # Third Party Registry --------------------------------------
-  # ---------------------------------------------------------
-  - kind: ethereum/contract
-    name: ThirdPartyRegistry
-    network: {{network}}
-    source:
-      abi: ThirdPartyRegistry
-      startBlock: {{startBlock_tpr}}
-      address: '{{address_tpr}}'
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      entities:
-        - ThirdParty
-        - Item
-      abis:
-        - name: ThirdPartyRegistry
-          file: ./abis/ThirdPartyRegistry.json
-      eventHandlers:
-        - event: ThirdPartyAdded(string,string,string,bool,address[],address)
-          handler: handleThirdPartyAdded
-        - event: ItemAdded(string,string,string,bool,address)
-          handler: handleItemAdded
-
-      file: ./src/handlers/thirdparty.ts
-
   # ---------------------------------------------------------
   # Tiers ----------------------------------------------
   # ---------------------------------------------------------
@@ -58,3 +30,27 @@ dataSources:
       eventHandlers:
         - event: TierAdded((uint256,uint256))
           handler: handleTierAdded
+  # ---------------------------------------------------------
+  # Third Party Registry --------------------------------------
+  # ---------------------------------------------------------
+  - kind: ethereum/contract
+    name: ThirdPartyRegistry
+    network: {{network}}
+    source:
+      abi: ThirdPartyRegistry
+      startBlock: {{startBlock_tpr}}
+      address: '{{address_tpr}}'
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/handlers/thirdparty.ts
+      entities:
+        - ThirdParty
+        - Item
+      abis:
+        - name: ThirdPartyRegistry
+          file: ./abis/ThirdPartyRegistry.json
+      eventHandlers:
+        - event: ThirdPartyAdded(string,string,string,bool,address[],address)
+          handler: handleThirdPartyAdded

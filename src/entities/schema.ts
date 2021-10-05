@@ -59,13 +59,13 @@ export class ThirdParty extends Entity {
     }
   }
 
-  get metadata(): string {
-    let value = this.get("metadata");
+  get rawMetadata(): string {
+    let value = this.get("rawMetadata");
     return value.toString();
   }
 
-  set metadata(value: string) {
-    this.set("metadata", Value.fromString(value));
+  set rawMetadata(value: string) {
+    this.set("rawMetadata", Value.fromString(value));
   }
 
   get resolver(): string {
@@ -120,6 +120,74 @@ export class ThirdParty extends Entity {
       this.set("items", Value.fromStringArray(value as Array<string>));
     }
   }
+
+  get metadata(): string | null {
+    let value = this.get("metadata");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set metadata(value: string | null) {
+    if (value === null) {
+      this.unset("metadata");
+    } else {
+      this.set("metadata", Value.fromString(value as string));
+    }
+  }
+
+  get searchName(): string | null {
+    let value = this.get("searchName");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set searchName(value: string | null) {
+    if (value === null) {
+      this.unset("searchName");
+    } else {
+      this.set("searchName", Value.fromString(value as string));
+    }
+  }
+
+  get searchDescription(): string | null {
+    let value = this.get("searchDescription");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set searchDescription(value: string | null) {
+    if (value === null) {
+      this.unset("searchDescription");
+    } else {
+      this.set("searchDescription", Value.fromString(value as string));
+    }
+  }
+
+  get searchText(): string | null {
+    let value = this.get("searchText");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set searchText(value: string | null) {
+    if (value === null) {
+      this.unset("searchText");
+    } else {
+      this.set("searchText", Value.fromString(value as string));
+    }
+  }
 }
 
 export class Item extends Entity {
@@ -161,22 +229,13 @@ export class Item extends Entity {
     this.set("collection", Value.fromString(value));
   }
 
-  get metadata(): string {
-    let value = this.get("metadata");
+  get rawMetadata(): string {
+    let value = this.get("rawMetadata");
     return value.toString();
   }
 
-  set metadata(value: string) {
-    this.set("metadata", Value.fromString(value));
-  }
-
-  get contentHash(): string {
-    let value = this.get("contentHash");
-    return value.toString();
-  }
-
-  set contentHash(value: string) {
-    this.set("contentHash", Value.fromString(value));
+  set rawMetadata(value: string) {
+    this.set("rawMetadata", Value.fromString(value));
   }
 
   get isApproved(): boolean {
@@ -195,6 +254,23 @@ export class Item extends Entity {
 
   set thirdParty(value: string) {
     this.set("thirdParty", Value.fromString(value));
+  }
+
+  get metadata(): string | null {
+    let value = this.get("metadata");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set metadata(value: string | null) {
+    if (value === null) {
+      this.unset("metadata");
+    } else {
+      this.set("metadata", Value.fromString(value as string));
+    }
   }
 }
 
@@ -247,6 +323,120 @@ export class Tier extends Entity {
   }
 }
 
+export class Metadata extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Metadata entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Metadata entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Metadata", id.toString(), this);
+  }
+
+  static load(id: string): Metadata | null {
+    return store.get("Metadata", id) as Metadata | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get type(): string | null {
+    let value = this.get("type");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set type(value: string | null) {
+    if (value === null) {
+      this.unset("type");
+    } else {
+      this.set("type", Value.fromString(value as string));
+    }
+  }
+
+  get thirdParty(): string | null {
+    let value = this.get("thirdParty");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set thirdParty(value: string | null) {
+    if (value === null) {
+      this.unset("thirdParty");
+    } else {
+      this.set("thirdParty", Value.fromString(value as string));
+    }
+  }
+}
+
+export class ThirdPartyMetadata extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ThirdPartyMetadata entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ThirdPartyMetadata entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("ThirdPartyMetadata", id.toString(), this);
+  }
+
+  static load(id: string): ThirdPartyMetadata | null {
+    return store.get("ThirdPartyMetadata", id) as ThirdPartyMetadata | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get description(): string {
+    let value = this.get("description");
+    return value.toString();
+  }
+
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
+  }
+}
+
 export class Count extends Entity {
   constructor(id: string) {
     super();
@@ -275,6 +465,24 @@ export class Count extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get thirdPartyTotal(): BigInt {
+    let value = this.get("thirdPartyTotal");
+    return value.toBigInt();
+  }
+
+  set thirdPartyTotal(value: BigInt) {
+    this.set("thirdPartyTotal", Value.fromBigInt(value));
+  }
+
+  get itemTotal(): BigInt {
+    let value = this.get("itemTotal");
+    return value.toBigInt();
+  }
+
+  set itemTotal(value: BigInt) {
+    this.set("itemTotal", Value.fromBigInt(value));
   }
 
   get tierTotal(): BigInt {
