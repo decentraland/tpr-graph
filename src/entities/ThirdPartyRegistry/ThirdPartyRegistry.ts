@@ -749,7 +749,9 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
       ]
     );
 
-    return result[0].toTuple() as ThirdPartyRegistry__itemsByIdResultValue0Struct;
+    return changetype<ThirdPartyRegistry__itemsByIdResultValue0Struct>(
+      result[0].toTuple()
+    );
   }
 
   try_itemsById(
@@ -769,7 +771,9 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ThirdPartyRegistry__itemsByIdResultValue0Struct
+      changetype<ThirdPartyRegistry__itemsByIdResultValue0Struct>(
+        value[0].toTuple()
+      )
     );
   }
 

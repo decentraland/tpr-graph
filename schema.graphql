@@ -1,6 +1,6 @@
 type ThirdParty @entity {
   id: ID!
-  managers: [String!]
+  managers: [String!]!
   rawMetadata: String!
   resolver: String!
   isApproved: Boolean
@@ -16,12 +16,23 @@ type ThirdParty @entity {
 }
 
 type Item @entity {
+  # URN
   id: ID!
-  collection: String!
+  metadata: Metadata
   rawMetadata: String!
   isApproved: Boolean
   thirdParty: ThirdParty!
-  metadata: Metadata
+
+  # URN values
+  searchItemId: String!
+  searchCollectionId: String!
+
+  # Metadata values
+  searchName: String
+  searchDescription: String
+  searchCategory: String
+  searchBodyShape: String
+  searchText: String
 }
 
 type Tier @entity {
@@ -34,10 +45,12 @@ type Metadata @entity {
   id: ID!
   type: MetadataType
   thirdParty: ThirdPartyMetadata
+  itemWearable: ItemWearableMetadata
 }
 
 enum MetadataType @entity {
   undefined
+  item_v1
   third_party_v1
 }
 
@@ -45,6 +58,37 @@ type ThirdPartyMetadata @entity {
   id: ID!
   name: String!
   description: String!
+}
+
+type ItemWearableMetadata @entity {
+  id: ID!
+  name: String!
+  description: String!
+  category: WearableCategory
+  bodyShapes: [WearableBodyShape!]!
+}
+
+enum WearableBodyShape @entity {
+  BaseFemale
+  BaseMale
+}
+
+enum WearableCategory @entity {
+  eyebrows
+  eyes
+  facial_hair
+  hair
+  mouth
+  upper_body
+  lower_body
+  feet
+  earring
+  eyewear
+  hat
+  helmet
+  mask
+  tiara
+  top_head
 }
 
 # thegraph doesn't support count operations, but we need them to paginate results
