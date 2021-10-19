@@ -1,19 +1,19 @@
 export function getCollectionId(id: string): string | null {
-  let values = id.split(":");
+  let values = id.split(':')
 
   if (values.length != 6) {
-    return null;
+    return null
   }
 
-  return values[4];
+  return values[4]
 }
 
 export function getItemId(id: string): string | null {
-  let values = id.split(":");
+  let values = id.split(':')
 
   if (values.length != 6) {
-    return null;
+    return null
   }
 
-  return values[5];
+  return values[5]
 }
