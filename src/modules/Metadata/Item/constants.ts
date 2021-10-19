@@ -17,3 +17,5 @@ Categories.push('top_head')
 export let BodyShapes = new Array<string>()
 BodyShapes.push('BaseFemale')
 BodyShapes.push('BaseMale')
+
+export const ITEM_WEARABLE_V1_VERSION = '1'

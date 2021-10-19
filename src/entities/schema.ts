@@ -23,6 +23,7 @@ export class ThirdParty extends Entity {
     this.set("isApproved", Value.fromBoolean(false));
     this.set("maxItems", Value.fromBigInt(BigInt.zero()));
     this.set("totalItems", Value.fromBigInt(BigInt.zero()));
+    this.set("metadata", Value.fromString(""));
   }
 
   save(): void {
@@ -122,21 +123,13 @@ export class ThirdParty extends Entity {
     }
   }
 
-  get metadata(): string | null {
+  get metadata(): string {
     let value = this.get("metadata");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set metadata(value: string | null) {
-    if (!value) {
-      this.unset("metadata");
-    } else {
-      this.set("metadata", Value.fromString(<string>value));
-    }
+  set metadata(value: string) {
+    this.set("metadata", Value.fromString(value));
   }
 
   get searchName(): string | null {
@@ -196,6 +189,7 @@ export class Item extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
+    this.set("metadata", Value.fromString(""));
     this.set("rawMetadata", Value.fromString(""));
     this.set("isApproved", Value.fromBoolean(false));
     this.set("thirdParty", Value.fromString(""));
@@ -229,21 +223,13 @@ export class Item extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get metadata(): string | null {
+  get metadata(): string {
     let value = this.get("metadata");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set metadata(value: string | null) {
-    if (!value) {
-      this.unset("metadata");
-    } else {
-      this.set("metadata", Value.fromString(<string>value));
-    }
+  set metadata(value: string) {
+    this.set("metadata", Value.fromString(value));
   }
 
   get rawMetadata(): string {

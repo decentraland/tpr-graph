@@ -7,7 +7,7 @@ type ThirdParty @entity {
   maxItems: BigInt!
   totalItems: BigInt!
   items: [Item!] @derivedFrom(field: "thirdParty")
-  metadata: Metadata
+  metadata: Metadata!
 
   # Searcheable fields
   searchName: String
@@ -18,7 +18,7 @@ type ThirdParty @entity {
 type Item @entity {
   # URN
   id: ID!
-  metadata: Metadata
+  metadata: Metadata!
   rawMetadata: String!
   isApproved: Boolean
   thirdParty: ThirdParty!

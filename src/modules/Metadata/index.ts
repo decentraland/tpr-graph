@@ -29,7 +29,6 @@ export function buildMetadata(id: string, rawMetadata: string): Metadata {
       metadata.type = MetadataTypes.UNDEFINED
     }
   } else if (type == MetadataTypes.THIRD_PARTY_TYPE_SHORT) {
-    // TODO check lengths in the buildThirdPartyMetadata function (lengths if data > 2 ??)
     let thirdPartyMetadata = buildThirdPartyMetadata(id, rawMetadata)
     if (thirdPartyMetadata != null) {
       metadata.thirdParty = thirdPartyMetadata.id

@@ -1,3 +1,4 @@
+import { log } from '@graphprotocol/graph-ts'
 import { ThirdParty, ThirdPartyMetadata } from '../../../entities/schema'
 import { toLowerCase } from '../../../utils'
 
@@ -24,6 +25,11 @@ export function buildThirdPartyMetadata(
 
     return thirdPartyMetadata
   }
+
+  log.error(
+    'The third party metadata with id "{}" is not correctly formatted "{}"',
+    [id, rawMetadata]
+  )
 
   return null
 }

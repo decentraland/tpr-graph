@@ -31,3 +31,11 @@ export function buildCountFromThirdParty(): Count {
 
   return count
 }
+
+export function buildCountFromItem(): Count {
+  let count = buildCount()
+
+  count.itemTotal = count.itemTotal.plus(BigInt.fromI32(1))
+
+  return count
+}
