@@ -16,23 +16,25 @@ type ThirdParty @entity {
 }
 
 type Item @entity {
-  # URN
+  "The item entity id, the URN as of today"
   id: ID!
+  "The item URN (thirdPartyId:collectionId:itemId)"
+  urn: String!
+  "The item blockchain id (collectionId:itemId)"
+  blockchainItemId: String!
   metadata: Metadata!
   rawMetadata: String!
   isApproved: Boolean
   thirdParty: ThirdParty!
-
-  # URN values
+  "The item id extracted from the blockchain item id (collectionId:itemId)"
   searchItemId: String!
+  "The collection id extracted from the blockchain item id (collectionId:itemId)"
   searchCollectionId: String!
-
   # Metadata values
   searchName: String
   searchDescription: String
   searchCategory: String
-  searchBodyShape: String
-  searchText: String
+  searchBodyShapes: [WearableBodyShape!]
 }
 
 type Tier @entity {

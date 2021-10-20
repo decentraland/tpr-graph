@@ -6,8 +6,9 @@ import {
   ThirdPartyAdded
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
-import { buildItemEntityId, getCollectionId, getItemId } from '../modules/ID'
+import { buildItemEntityId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
+import { setItemSearchFields } from '../modules/Metadata/Item'
 import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
 
 export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
@@ -44,53 +45,53 @@ export function handleItemUpdated(event: ItemUpdated): void {
     event.params._thirdPartyId,
     event.params._itemId
   )
-  let item = Item.load(itemEntityId)
-  if (item == null) {
+  let itemEntity = Item.load(itemEntityId)
+  if (itemEntity == null) {
     log.error('An item with a non existent id "{}" tried to be updated', [
       itemEntityId
     ])
     return
   }
 
-  item.rawMetadata = event.params._metadata
-  let metadata = buildMetadata(item.id, item.rawMetadata)
-  item.metadata = metadata.id
+  itemEntity.rawMetadata = event.params._metadata
+  let metadata = buildMetadata(itemEntity.id, itemEntity.rawMetadata)
+  itemEntity.metadata = metadata.id
 
-  item.save()
+  itemEntity.save()
 }
 
 export function handleItemAdded(event: ItemAdded): void {
-  let collectionId = getCollectionId(event.params._itemId)
-  let itemId = getItemId(event.params._itemId)
-  if (collectionId == null || itemId == null) {
-    log.error(
-      'An item was added in the TPR "{}" with an incorrect id - collectionId: "{}", itemId: "{}"',
-      [
-        event.params._thirdPartyId,
-        collectionId ? collectionId : 'null',
-        itemId ? itemId : 'null'
-      ]
-    )
+  if (isBlockchainIdValid(event.params._itemId)) {
+    log.error('An item was added in the TPR "{}" with an incorrect id "{}"', [
+      event.params._thirdPartyId,
+      event.params._itemId
+    ])
     return
   }
 
-  let item = Item.load(
-    buildItemEntityId(event.params._thirdPartyId, event.params._itemId)
+  let itemEntityId = buildItemEntityId(
+    event.params._thirdPartyId,
+    event.params._itemId
   )
-  if (item === null) {
-    item = new Item(event.params._itemId)
+
+  let itemEntity = Item.load(itemEntityId)
+  if (itemEntity === null) {
+    itemEntity = new Item(itemEntityId)
   }
 
-  item.rawMetadata = event.params._metadata
-  item.thirdParty = event.params._thirdPartyId
-  item.isApproved = false
-  item.searchCollectionId = collectionId!
-  item.searchItemId = itemId!
+  itemEntity.blockchainItemId = event.params._itemId
+  itemEntity.rawMetadata = event.params._metadata
+  itemEntity.thirdParty = event.params._thirdPartyId
+  itemEntity.isApproved = false
+  // As of today, the URN is the same as the item entity id
+  itemEntity.urn = itemEntityId
 
-  let metadata = buildMetadata(item.id, item.rawMetadata)
-  item.metadata = metadata.id
+  let metadata = buildMetadata(itemEntity.id, itemEntity.rawMetadata)
+  itemEntity.metadata = metadata.id
 
-  item.save()
+  itemEntity = setItemSearchFields(itemEntity)
+
+  itemEntity.save()
 
   let metric = buildCountFromItem()
   metric.save()

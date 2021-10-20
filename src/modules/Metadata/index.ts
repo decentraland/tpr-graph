@@ -1,4 +1,4 @@
-import { Metadata, ThirdParty } from '../../entities/schema'
+import { Metadata } from '../../entities/schema'
 import { buildWearableMetadata } from './Item'
 import { buildThirdPartyMetadata } from './ThirdParty'
 import * as MetadataTypes from './types'

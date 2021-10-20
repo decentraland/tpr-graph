@@ -189,6 +189,8 @@ export class Item extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
+    this.set("urn", Value.fromString(""));
+    this.set("blockchainItemId", Value.fromString(""));
     this.set("metadata", Value.fromString(""));
     this.set("rawMetadata", Value.fromString(""));
     this.set("isApproved", Value.fromBoolean(false));
@@ -221,6 +223,24 @@ export class Item extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get urn(): string {
+    let value = this.get("urn");
+    return value!.toString();
+  }
+
+  set urn(value: string) {
+    this.set("urn", Value.fromString(value));
+  }
+
+  get blockchainItemId(): string {
+    let value = this.get("blockchainItemId");
+    return value!.toString();
+  }
+
+  set blockchainItemId(value: string) {
+    this.set("blockchainItemId", Value.fromString(value));
   }
 
   get metadata(): string {
@@ -328,37 +348,20 @@ export class Item extends Entity {
     }
   }
 
-  get searchBodyShape(): string | null {
-    let value = this.get("searchBodyShape");
+  get searchBodyShapes(): Array<string> | null {
+    let value = this.get("searchBodyShapes");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toString();
+      return value.toStringArray();
     }
   }
 
-  set searchBodyShape(value: string | null) {
+  set searchBodyShapes(value: Array<string> | null) {
     if (!value) {
-      this.unset("searchBodyShape");
+      this.unset("searchBodyShapes");
     } else {
-      this.set("searchBodyShape", Value.fromString(<string>value));
-    }
-  }
-
-  get searchText(): string | null {
-    let value = this.get("searchText");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set searchText(value: string | null) {
-    if (!value) {
-      this.unset("searchText");
-    } else {
-      this.set("searchText", Value.fromString(<string>value));
+      this.set("searchBodyShapes", Value.fromStringArray(<Array<string>>value));
     }
   }
 }

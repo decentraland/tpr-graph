@@ -1,6 +1,8 @@
 import { log } from '@graphprotocol/graph-ts'
-import { ItemWearableMetadata } from '../../../entities/schema'
+import { Item, ItemWearableMetadata, Metadata } from '../../../entities/schema'
 import { toLowerCase } from '../../../utils'
+import { getCollectionId, getItemId } from '../../Item'
+import * as MetadataTypes from '../types'
 import { Categories, BodyShapes, ITEM_WEARABLE_V1_VERSION } from './constants'
 
 export function buildWearableMetadata(
@@ -73,4 +75,23 @@ function buildWearableBodyShapes(metadataBodyShapes: string): string[] {
   return splittedBodyShapes.filter(
     splittedBodyShape => BodyShapes.indexOf(splittedBodyShape) !== -1
   )
+}
+
+export function setItemSearchFields(item: Item): Item {
+  let collectionId = getCollectionId(item.blockchainItemId)
+  let itemId = getItemId(item.blockchainItemId)
+  item.searchCollectionId = collectionId!
+  item.searchItemId = itemId!
+
+  let metadata = Metadata.load(item.id)
+  if (metadata && metadata.type == MetadataTypes.ITEM_WEARABLE_V1) {
+    let wearableMetadata = ItemWearableMetadata.load(metadata.itemWearable!)
+    if (wearableMetadata) {
+      item.searchName = wearableMetadata.name
+      item.searchDescription = wearableMetadata.description
+      item.searchCategory = wearableMetadata.category
+      item.searchBodyShapes = wearableMetadata.bodyShapes
+    }
+  }
+  return item
 }
