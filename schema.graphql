@@ -52,7 +52,7 @@ type Metadata @entity {
 
 enum MetadataType @entity {
   undefined
-  item_v1
+  item_wearable_v1
   third_party_v1
 }
 
