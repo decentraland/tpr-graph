@@ -33,8 +33,8 @@ type Item @entity {
   # Metadata values
   searchName: String
   searchDescription: String
-  searchCategory: String
-  searchBodyShapes: [WearableBodyShape!]
+  searchWearableCategory: String
+  searchWearableBodyShapes: [WearableBodyShape!]
 }
 
 type Tier @entity {
@@ -45,7 +45,7 @@ type Tier @entity {
 
 type Metadata @entity {
   id: ID!
-  type: MetadataType
+  type: MetadataType!
   thirdParty: ThirdPartyMetadata
   itemWearable: ItemWearableMetadata
 }

@@ -1,7 +1,11 @@
 import { log } from '@graphprotocol/graph-ts'
 import { Item, ItemWearableMetadata, Metadata } from '../../../entities/schema'
 import { toLowerCase } from '../../../utils'
-import { getCollectionId, getItemId } from '../../Item'
+import {
+  getSearchCollectionId,
+  getSearchItemId,
+  isBlockchainIdValid
+} from '../../Item'
 import * as MetadataTypes from '../types'
 import { Categories, BodyShapes, ITEM_WEARABLE_V1_VERSION } from './constants'
 
@@ -78,8 +82,16 @@ function buildWearableBodyShapes(metadataBodyShapes: string): string[] {
 }
 
 export function setItemSearchFields(item: Item): Item {
-  let collectionId = getCollectionId(item.blockchainItemId)
-  let itemId = getItemId(item.blockchainItemId)
+  if (!isBlockchainIdValid(item.blockchainItemId)) {
+    log.error(
+      'The item can\'t have their metadata values set because its ID "{}" isn\'t well formatted',
+      [item.blockchainItemId]
+    )
+    return item
+  }
+
+  let collectionId = getSearchCollectionId(item.blockchainItemId)
+  let itemId = getSearchItemId(item.blockchainItemId)
   item.searchCollectionId = collectionId!
   item.searchItemId = itemId!
 
@@ -89,9 +101,19 @@ export function setItemSearchFields(item: Item): Item {
     if (wearableMetadata) {
       item.searchName = wearableMetadata.name
       item.searchDescription = wearableMetadata.description
-      item.searchCategory = wearableMetadata.category
-      item.searchBodyShapes = wearableMetadata.bodyShapes
+      item.searchWearableCategory = wearableMetadata.category
+      item.searchWearableBodyShapes = wearableMetadata.bodyShapes
+    } else {
+      log.error(
+        'The wearable with id "{}" has the "{}" metadata type but no metadata is registered for it',
+        [item.id, metadata.type]
+      )
     }
+  } else {
+    log.error(
+      'The item with id "{}" does not have metadata or a recognizable metadata type',
+      [item.id]
+    )
   }
   return item
 }

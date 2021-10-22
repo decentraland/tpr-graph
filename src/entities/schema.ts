@@ -331,8 +331,8 @@ export class Item extends Entity {
     }
   }
 
-  get searchCategory(): string | null {
-    let value = this.get("searchCategory");
+  get searchWearableCategory(): string | null {
+    let value = this.get("searchWearableCategory");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -340,16 +340,16 @@ export class Item extends Entity {
     }
   }
 
-  set searchCategory(value: string | null) {
+  set searchWearableCategory(value: string | null) {
     if (!value) {
-      this.unset("searchCategory");
+      this.unset("searchWearableCategory");
     } else {
-      this.set("searchCategory", Value.fromString(<string>value));
+      this.set("searchWearableCategory", Value.fromString(<string>value));
     }
   }
 
-  get searchBodyShapes(): Array<string> | null {
-    let value = this.get("searchBodyShapes");
+  get searchWearableBodyShapes(): Array<string> | null {
+    let value = this.get("searchWearableBodyShapes");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -357,11 +357,14 @@ export class Item extends Entity {
     }
   }
 
-  set searchBodyShapes(value: Array<string> | null) {
+  set searchWearableBodyShapes(value: Array<string> | null) {
     if (!value) {
-      this.unset("searchBodyShapes");
+      this.unset("searchWearableBodyShapes");
     } else {
-      this.set("searchBodyShapes", Value.fromStringArray(<Array<string>>value));
+      this.set(
+        "searchWearableBodyShapes",
+        Value.fromStringArray(<Array<string>>value)
+      );
     }
   }
 }
@@ -424,6 +427,8 @@ export class Metadata extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("type", Value.fromString(""));
   }
 
   save(): void {
@@ -452,21 +457,13 @@ export class Metadata extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get type(): string | null {
+  get type(): string {
     let value = this.get("type");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set type(value: string | null) {
-    if (!value) {
-      this.unset("type");
-    } else {
-      this.set("type", Value.fromString(<string>value));
-    }
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
   }
 
   get thirdParty(): string | null {

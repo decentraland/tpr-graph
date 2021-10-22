@@ -6,7 +6,7 @@ import {
   ThirdPartyAdded
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
-import { buildItemEntityId, isBlockchainIdValid } from '../modules/Item'
+import { buildItemId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
 import { setItemSearchFields } from '../modules/Metadata/Item'
 import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
@@ -41,23 +41,20 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
 }
 
 export function handleItemUpdated(event: ItemUpdated): void {
-  let itemEntityId = buildItemEntityId(
-    event.params._thirdPartyId,
-    event.params._itemId
-  )
-  let itemEntity = Item.load(itemEntityId)
-  if (itemEntity == null) {
+  let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
+  let item = Item.load(itemId)
+  if (item == null) {
     log.error('An item with a non existent id "{}" tried to be updated', [
-      itemEntityId
+      itemId
     ])
     return
   }
 
-  itemEntity.rawMetadata = event.params._metadata
-  let metadata = buildMetadata(itemEntity.id, itemEntity.rawMetadata)
-  itemEntity.metadata = metadata.id
+  item.rawMetadata = event.params._metadata
+  let metadata = buildMetadata(item.id, item.rawMetadata)
+  item.metadata = metadata.id
 
-  itemEntity.save()
+  item.save()
 }
 
 export function handleItemAdded(event: ItemAdded): void {
@@ -69,29 +66,26 @@ export function handleItemAdded(event: ItemAdded): void {
     return
   }
 
-  let itemEntityId = buildItemEntityId(
-    event.params._thirdPartyId,
-    event.params._itemId
-  )
+  let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
 
-  let itemEntity = Item.load(itemEntityId)
-  if (itemEntity === null) {
-    itemEntity = new Item(itemEntityId)
+  let item = Item.load(itemId)
+  if (item === null) {
+    item = new Item(itemId)
   }
 
-  itemEntity.blockchainItemId = event.params._itemId
-  itemEntity.rawMetadata = event.params._metadata
-  itemEntity.thirdParty = event.params._thirdPartyId
-  itemEntity.isApproved = false
+  item.blockchainItemId = event.params._itemId
+  item.rawMetadata = event.params._metadata
+  item.thirdParty = event.params._thirdPartyId
+  item.isApproved = false
   // As of today, the URN is the same as the item entity id
-  itemEntity.urn = itemEntityId
+  item.urn = itemId
 
-  let metadata = buildMetadata(itemEntity.id, itemEntity.rawMetadata)
-  itemEntity.metadata = metadata.id
+  let metadata = buildMetadata(item.id, item.rawMetadata)
+  item.metadata = metadata.id
 
-  itemEntity = setItemSearchFields(itemEntity)
+  item = setItemSearchFields(item)
 
-  itemEntity.save()
+  item.save()
 
   let metric = buildCountFromItem()
   metric.save()

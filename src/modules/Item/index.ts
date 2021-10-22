@@ -1,10 +1,9 @@
 /**
  * Gets the the item id from a blockchain item id.
- * The blockchain item id is formatted as collectionId:itemId.
  *
- * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id.
+ * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id (collectionId:itemId).
  */
-export function getCollectionId(blockchainItemId: string): string | null {
+export function getSearchCollectionId(blockchainItemId: string): string | null {
   let values = blockchainItemId.split(':')
 
   if (values.length != 2) {
@@ -16,11 +15,10 @@ export function getCollectionId(blockchainItemId: string): string | null {
 
 /**
  * Gets the the item id from a blockchain item id.
- * The blockchain item id is formatted as collectionId:itemId.
  *
- * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id.
+ * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id (collectionId:itemId).
  */
-export function getItemId(blockchainItemId: string): string | null {
+export function getSearchItemId(blockchainItemId: string): string | null {
   let values = blockchainItemId.split(':')
 
   if (values.length != 2) {
@@ -33,7 +31,7 @@ export function getItemId(blockchainItemId: string): string | null {
 /**
  * Checks if a blockchain item id is valid or not.
  *
- * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id.
+ * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id (collectionId:itemId).
  */
 export function isBlockchainIdValid(blockchainItemId: string): boolean {
   let values = blockchainItemId.split(':')
@@ -49,9 +47,9 @@ export function isBlockchainIdValid(blockchainItemId: string): boolean {
  * Builds the Item entity id by combining the third party id and the blockchain id of the item.
  *
  * @param thirdPartyId - The blockchain id for the third party.
- * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id.
+ * @param blockchainItemId - The blockchain id for the item, containing the item id and the collection id (collectionId:itemId).
  */
-export function buildItemEntityId(
+export function buildItemId(
   thirdPartyId: string,
   blockchainItemId: string
 ): string {
