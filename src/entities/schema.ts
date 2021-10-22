@@ -195,6 +195,7 @@ export class Item extends Entity {
     this.set("rawMetadata", Value.fromString(""));
     this.set("isApproved", Value.fromBoolean(false));
     this.set("thirdParty", Value.fromString(""));
+    this.set("searchThirdPartyId", Value.fromString(""));
     this.set("searchItemId", Value.fromString(""));
     this.set("searchCollectionId", Value.fromString(""));
   }
@@ -277,6 +278,15 @@ export class Item extends Entity {
 
   set thirdParty(value: string) {
     this.set("thirdParty", Value.fromString(value));
+  }
+
+  get searchThirdPartyId(): string {
+    let value = this.get("searchThirdPartyId");
+    return value!.toString();
+  }
+
+  set searchThirdPartyId(value: string) {
+    this.set("searchThirdPartyId", Value.fromString(value));
   }
 
   get searchItemId(): string {
