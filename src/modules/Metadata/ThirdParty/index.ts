@@ -1,13 +1,16 @@
-import { ThirdParty, ThirdPartyMetadata } from "../../../entities/schema"
-import { toLowerCase } from "../../../utils"
+import { log } from '@graphprotocol/graph-ts'
+import { ThirdParty, ThirdPartyMetadata } from '../../../entities/schema'
+import { toLowerCase } from '../../../utils'
 
 /**
  * @dev We expect that the metadata has the following shape type:version:name:description. i.e: tp:1:third party 1:the third party 1 description.
  * @param thirdParty
  */
-export function buildThirdPartyMetadata(thirdParty: ThirdParty): ThirdPartyMetadata | null {
-  let id = thirdParty.id
-  let data = thirdParty.rawMetadata.split(':')
+export function buildThirdPartyMetadata(
+  id: string,
+  rawMetadata: string
+): ThirdPartyMetadata | null {
+  let data = rawMetadata.split(':')
 
   if (data.length == 4) {
     let thirdPartyMetadata = ThirdPartyMetadata.load(id)
@@ -23,6 +26,11 @@ export function buildThirdPartyMetadata(thirdParty: ThirdParty): ThirdPartyMetad
     return thirdPartyMetadata
   }
 
+  log.error(
+    'The third party metadata with id "{}" is not correctly formatted "{}"',
+    [id, rawMetadata]
+  )
+
   return null
 }
 
@@ -31,7 +39,9 @@ export function setThirdPartySearchFields(thirdParty: ThirdParty): ThirdParty {
   if (metadata) {
     thirdParty.searchName = metadata.name
     thirdParty.searchDescription = metadata.description
-    thirdParty.searchText = toLowerCase(metadata.name + ' ' + metadata.description)
+    thirdParty.searchText = toLowerCase(
+      metadata.name + ' ' + metadata.description
+    )
   }
 
   return thirdParty

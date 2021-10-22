@@ -1,13 +1,13 @@
 type ThirdParty @entity {
   id: ID!
-  managers: [String!]
+  managers: [String!]!
   rawMetadata: String!
   resolver: String!
   isApproved: Boolean
   maxItems: BigInt!
   totalItems: BigInt!
   items: [Item!] @derivedFrom(field: "thirdParty")
-  metadata: Metadata
+  metadata: Metadata!
 
   # Searcheable fields
   searchName: String
@@ -16,12 +16,27 @@ type ThirdParty @entity {
 }
 
 type Item @entity {
+  "The item entity id, the URN as of today"
   id: ID!
-  collection: String!
+  "The item URN (thirdPartyId:collectionId:itemId)"
+  urn: String!
+  "The item blockchain id (collectionId:itemId)"
+  blockchainItemId: String!
+  metadata: Metadata!
   rawMetadata: String!
   isApproved: Boolean
   thirdParty: ThirdParty!
-  metadata: Metadata
+  searchThirdPartyId: String!
+  "The item id extracted from the blockchain item id (collectionId:itemId)"
+  searchItemId: String!
+  "The collection id extracted from the blockchain item id (collectionId:itemId)"
+  searchCollectionId: String!
+  searchText: String
+  # Metadata values
+  searchName: String
+  searchDescription: String
+  searchWearableCategory: String
+  searchWearableBodyShapes: [WearableBodyShape!]
 }
 
 type Tier @entity {
@@ -32,12 +47,14 @@ type Tier @entity {
 
 type Metadata @entity {
   id: ID!
-  type: MetadataType
+  type: MetadataType!
   thirdParty: ThirdPartyMetadata
+  itemWearable: ItemWearableMetadata
 }
 
 enum MetadataType @entity {
   undefined
+  item_wearable_v1
   third_party_v1
 }
 
@@ -45,6 +62,37 @@ type ThirdPartyMetadata @entity {
   id: ID!
   name: String!
   description: String!
+}
+
+type ItemWearableMetadata @entity {
+  id: ID!
+  name: String!
+  description: String!
+  category: WearableCategory
+  bodyShapes: [WearableBodyShape!]!
+}
+
+enum WearableBodyShape @entity {
+  BaseFemale
+  BaseMale
+}
+
+enum WearableCategory @entity {
+  eyebrows
+  eyes
+  facial_hair
+  hair
+  mouth
+  upper_body
+  lower_body
+  feet
+  earring
+  eyewear
+  hat
+  helmet
+  mask
+  tiara
+  top_head
 }
 
 # thegraph doesn't support count operations, but we need them to paginate results

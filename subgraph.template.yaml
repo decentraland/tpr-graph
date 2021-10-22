@@ -19,7 +19,7 @@ dataSources:
       startBlock: {{startBlock_tiers}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       file: ./src/handlers/tiers.ts
       entities:
@@ -42,7 +42,7 @@ dataSources:
       address: '{{address_tpr}}'
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       file: ./src/handlers/thirdparty.ts
       entities:
@@ -54,3 +54,7 @@ dataSources:
       eventHandlers:
         - event: ThirdPartyAdded(string,string,string,bool,address[],address)
           handler: handleThirdPartyAdded
+        - event: ItemAdded(string,string,string,bool,address)
+          handler: handleItemAdded
+        - event: ItemUpdated(string,string,string,address)
+          handler: handleItemUpdated

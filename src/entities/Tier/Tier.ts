@@ -72,7 +72,9 @@ export class TierAdded__Params {
   }
 
   get _tier(): TierAdded_tierStruct {
-    return this._event.parameters[0].value.toTuple() as TierAdded_tierStruct;
+    return changetype<TierAdded_tierStruct>(
+      this._event.parameters[0].value.toTuple()
+    );
   }
 }
 
