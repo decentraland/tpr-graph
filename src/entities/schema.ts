@@ -297,6 +297,23 @@ export class Item extends Entity {
     this.set("searchCollectionId", Value.fromString(value));
   }
 
+  get searchText(): string | null {
+    let value = this.get("searchText");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set searchText(value: string | null) {
+    if (!value) {
+      this.unset("searchText");
+    } else {
+      this.set("searchText", Value.fromString(<string>value));
+    }
+  }
+
   get searchName(): string | null {
     let value = this.get("searchName");
     if (!value || value.kind == ValueKind.NULL) {

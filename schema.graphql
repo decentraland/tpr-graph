@@ -30,6 +30,7 @@ type Item @entity {
   searchItemId: String!
   "The collection id extracted from the blockchain item id (collectionId:itemId)"
   searchCollectionId: String!
+  searchText: String
   # Metadata values
   searchName: String
   searchDescription: String

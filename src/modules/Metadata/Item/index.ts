@@ -103,6 +103,8 @@ export function setItemSearchFields(item: Item): Item {
       item.searchDescription = wearableMetadata.description
       item.searchWearableCategory = wearableMetadata.category
       item.searchWearableBodyShapes = wearableMetadata.bodyShapes
+      item.searchText =
+        wearableMetadata.name + ' ' + wearableMetadata.description
     } else {
       log.error(
         'The wearable with id "{}" has the "{}" metadata type but no metadata is registered for it',
