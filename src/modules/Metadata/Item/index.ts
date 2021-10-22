@@ -9,6 +9,12 @@ import {
 import * as MetadataTypes from '../types'
 import { Categories, BodyShapes, ITEM_WEARABLE_V1_VERSION } from './constants'
 
+/**
+ * Builds the wearable metadata by looking for the correct metadata decoder for the metadata version.
+ *
+ * @param id - The metadata id.
+ * @param metadataValues - The metadata values splitted by ':'.
+ */
 export function buildWearableMetadata(
   id: string,
   metadataValues: string[]
@@ -89,6 +95,11 @@ function buildWearableBodyShapes(metadataBodyShapes: string): string[] {
   )
 }
 
+/**
+ * Modifies the item by setting the item's search fields.
+ *
+ * @param item - The item to set the search fields to.
+ */
 export function setItemSearchFields(item: Item): Item {
   if (!isBlockchainIdValid(item.blockchainItemId)) {
     log.error(
