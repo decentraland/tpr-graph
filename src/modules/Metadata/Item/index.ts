@@ -113,13 +113,13 @@ export function setItemSearchFields(item: Item): Item {
   let itemId = getSearchItemId(item.blockchainItemId)
   item.searchCollectionId = collectionId!
   item.searchItemId = itemId!
+  item.searchThirdPartyId = item.thirdParty
 
   let metadata = Metadata.load(item.id)
   if (metadata && metadata.type == MetadataTypes.ITEM_WEARABLE_V1) {
     let wearableMetadata = ItemWearableMetadata.load(metadata.itemWearable!)
     if (wearableMetadata) {
       item.searchName = wearableMetadata.name
-      item.searchThirdPartyId = item.thirdParty
       item.searchDescription = wearableMetadata.description
       item.searchWearableCategory = wearableMetadata.category
       item.searchWearableBodyShapes = wearableMetadata.bodyShapes
