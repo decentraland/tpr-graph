@@ -33,6 +33,14 @@ export function buildWearableMetadata(
   return null
 }
 
+/**
+ * Builds the wearable metadata of version 1.
+ * This type of metadata follows the format: "type:version:name:description:category:bodyshapes."
+ * i.e: w:1:third party item 1:the third party item 1 description:hat:BaseMale,BaseFemale
+ *
+ * @param id - The metadata id.
+ * @param metadataValues - The metadata values splitted by ':'.
+ */
 function buildWearableMetadataV1(
   id: string,
   metadataValues: string[]

@@ -54,6 +54,8 @@ export function handleItemUpdated(event: ItemUpdated): void {
   let metadata = buildMetadata(item.id, item.rawMetadata)
   item.metadata = metadata.id
 
+  item = setItemSearchFields(item)
+
   item.save()
 }
 
