@@ -6,12 +6,17 @@ import {
   ThirdPartyAdded
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
+import { isValidURN } from '../modules/ThirdParty'
 import { buildItemId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
 import { setItemSearchFields } from '../modules/Metadata/Item'
 import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
 
 export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
+  if (!isValidURN(event.params._thirdPartyId)) {
+    return
+  }
+
   let thirdParty = new ThirdParty(event.params._thirdPartyId)
 
   thirdParty.resolver = event.params._resolver
