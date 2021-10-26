@@ -4,8 +4,13 @@
  *
  * @param urn - The URN to check
  */
-export function isValidURN(urn: string): boolean {
+export function isURNValid(urn: string): boolean {
   let parts = urn.split(':')
 
-  return parts.length == 5 && parts[0] == 'urn' && parts[1] == 'decentraland' && parts[2] == 'collections-thirdparty'
+  return (
+    parts.length == 5 &&
+    parts[0] == 'urn' &&
+    parts[1] == 'decentraland' &&
+    parts[2] == 'collections-thirdparty'
+  )
 }

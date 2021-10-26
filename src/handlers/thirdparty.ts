@@ -6,14 +6,14 @@ import {
   ThirdPartyAdded
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
-import { isValidURN } from '../modules/ThirdParty'
+import { isURNValid } from '../modules/ThirdParty'
 import { buildItemId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
 import { setItemSearchFields } from '../modules/Metadata/Item'
 import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
 
 export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
-  if (!isValidURN(event.params._thirdPartyId)) {
+  if (!isURNValid(event.params._thirdPartyId)) {
     log.error('A third party was added with an invalid URN as an id "{}"', [
       event.params._thirdPartyId
     ])
