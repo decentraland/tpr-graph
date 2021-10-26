@@ -14,6 +14,9 @@ import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
 
 export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   if (!isValidURN(event.params._thirdPartyId)) {
+    log.error('A third party was added with an invalid URN as an id "{}"', [
+      event.params._thirdPartyId
+    ])
     return
   }
 
