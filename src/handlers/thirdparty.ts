@@ -65,7 +65,7 @@ export function handleItemUpdated(event: ItemUpdated): void {
 }
 
 export function handleItemAdded(event: ItemAdded): void {
-  if (isBlockchainIdValid(event.params._itemId)) {
+  if (!isBlockchainIdValid(event.params._itemId)) {
     log.error('An item was added in the TPR "{}" with an incorrect id "{}"', [
       event.params._thirdPartyId,
       event.params._itemId
