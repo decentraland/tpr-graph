@@ -11,6 +11,6 @@ export function isURNValid(urn: string): boolean {
     parts.length == 5 &&
     parts[0] == 'urn' &&
     parts[1] == 'decentraland' &&
-    parts[2] == 'collections-thirdparty'
+    parts[3] == 'collections-thirdparty'
   )
 }
