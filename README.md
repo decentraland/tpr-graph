@@ -28,13 +28,23 @@ Ethereum addresses should be passed lowercased:
 
 ```typescript
 {
-  items(where:{ id: "urn:decentraland:mumbai:collections-thirdparty:thirdparty"}) {
+  items(where:{ id: "id"}) {
     id
   }
 }
 
 {
-  items(where:{ urn: "urn:decentraland:mumbai:collections-thirdparty:thirdparty"}) {
+  items(where:{ urn: "urn"}) {
+    id
+  }
+}
+```
+
+#### Get an item by URN & contentHash
+
+```typescript
+{
+  items(where:{ urn: "urn", contentHash: "hash"}) {
     id
   }
 }
