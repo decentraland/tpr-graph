@@ -3,7 +3,8 @@ import { Item, ThirdParty } from '../entities/schema'
 import {
   ItemAdded,
   ItemUpdated,
-  ThirdPartyAdded
+  ThirdPartyAdded,
+  ThirdPartyItemsBought
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
 import { isURNValid } from '../modules/ThirdParty'
@@ -48,6 +49,21 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   metric.save()
 }
 
+export function handleThirdPartyItemsBought(
+  event: ThirdPartyItemsBought
+): void {
+  let thirdParty = ThirdParty.load(event.params._thirdPartyId)
+  if (thirdParty == null) {
+    log.error(
+      'A non existent Third Party with id "{}" bought "{}" item slots',
+      [event.params._thirdPartyId, event.params._value.toString()]
+    )
+    return
+  }
+  thirdParty.maxItems = thirdParty.maxItems.plus(event.params._value)
+  thirdParty.save()
+}
+
 export function handleItemUpdated(event: ItemUpdated): void {
   let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
   let item = Item.load(itemId)
@@ -76,6 +92,16 @@ export function handleItemAdded(event: ItemAdded): void {
     return
   }
 
+  let thirdParty = ThirdParty.load(event.params._thirdPartyId)
+  if (thirdParty == null) {
+    log.error(
+      'An item with id "{}" was added into a non existent TPR with id "{}"',
+      [event.params._itemId, event.params._thirdPartyId]
+    )
+    return
+  }
+  thirdParty.totalItems = thirdParty.totalItems.plus(BigInt.fromI32(1))
+
   let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
 
   let item = Item.load(itemId)
@@ -95,6 +121,7 @@ export function handleItemAdded(event: ItemAdded): void {
 
   item = setItemSearchFields(item)
 
+  thirdParty.save()
   item.save()
 
   let metric = buildCountFromItem()

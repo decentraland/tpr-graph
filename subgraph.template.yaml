@@ -54,6 +54,8 @@ dataSources:
       eventHandlers:
         - event: ThirdPartyAdded(string,string,string,bool,address[],address)
           handler: handleThirdPartyAdded
+        - event: ThirdPartyItemsBought(string,uint256,uint256,address)
+          handler: handleThirdPartyItemsBought
         - event: ItemAdded(string,string,string,bool,address)
           handler: handleItemAdded
         - event: ItemUpdated(string,string,string,address)
