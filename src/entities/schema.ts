@@ -280,6 +280,23 @@ export class Item extends Entity {
     this.set("thirdParty", Value.fromString(value));
   }
 
+  get contentHash(): string | null {
+    let value = this.get("contentHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contentHash(value: string | null) {
+    if (!value) {
+      this.unset("contentHash");
+    } else {
+      this.set("contentHash", Value.fromString(<string>value));
+    }
+  }
+
   get searchThirdPartyId(): string {
     let value = this.get("searchThirdPartyId");
     return value!.toString();

@@ -26,6 +26,8 @@ type Item @entity {
   rawMetadata: String!
   isApproved: Boolean
   thirdParty: ThirdParty!
+  contentHash: String
+  # search Fields
   searchThirdPartyId: String!
   "The item id extracted from the blockchain item id (collectionId:itemId)"
   searchItemId: String!

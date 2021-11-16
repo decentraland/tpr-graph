@@ -17,8 +17,6 @@ npm run deploy:{network}
 
 ### Queries
 
-The item's `id` is the URN.
-
 Ethereum addresses should be passed lowercased:
 
 - `0xB549B2442b2BD0a53795BC5cDcBFE0cAF7ACA9f8` ❌
@@ -28,13 +26,17 @@ Ethereum addresses should be passed lowercased:
 
 ```typescript
 {
-  items(where:{ id: "urn:decentraland:mumbai:collections-thirdparty:thirdparty"}) {
+  items(where:{ urn: "urn"}) {
     id
   }
 }
+```
 
+#### Get an item by URN & contentHash
+
+```typescript
 {
-  items(where:{ urn: "urn:decentraland:mumbai:collections-thirdparty:thirdparty"}) {
+  items(where:{ urn: "urn", contentHash: "hash"}) {
     id
   }
 }
