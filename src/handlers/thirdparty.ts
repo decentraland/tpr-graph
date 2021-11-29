@@ -4,7 +4,8 @@ import {
   ItemAdded,
   ItemUpdated,
   ThirdPartyAdded,
-  ThirdPartyItemsBought
+  ThirdPartyItemsBought,
+  ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
 import { isURNValid } from '../modules/ThirdParty'
@@ -47,6 +48,62 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
 
   let metric = buildCountFromThirdParty()
   metric.save()
+}
+
+
+export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
+  if (!isURNValid(event.params._thirdPartyId)) {
+    log.error('A third party was added with an invalid URN as an id "{}"', [
+      event.params._thirdPartyId
+    ])
+    return
+  }
+
+  let thirdParty = ThirdParty.load(event.params._thirdPartyId)
+
+  if (!thirdParty) {
+    log.error('Invalid third party "{}"', [
+      event.params._thirdPartyId
+    ])
+    return
+  }
+
+  thirdParty.resolver = event.params._resolver
+  thirdParty.rawMetadata = event.params._metadata
+
+  thirdParty.save()
+
+  let eventManagersAddresses = event.params._managers
+  let eventManagersValues = event.params._managerValues
+  let managers = thirdParty.managers
+
+  for (let i = 0; i < event.params._managers.length; i++) {
+    let manager = eventManagersAddresses.pop()
+    let value = eventManagersValues.pop()
+
+    if (value) {
+      managers.push(manager.toHexString())
+      thirdParty.managers = managers
+    } else {
+      let newManagers = new Array<string>()
+
+      for (let i = 0; i < managers.length; i++) {
+        if (managers![i] != manager.toHexString()) {
+          newManagers.push(managers![i])
+        }
+      }
+
+      thirdParty.managers = managers
+      managers = thirdParty.managers
+    }
+  }
+
+  let metadata = buildMetadata(thirdParty.id, thirdParty.rawMetadata)
+  thirdParty.metadata = metadata.id
+
+  thirdParty = setThirdPartySearchFields(thirdParty)
+
+  thirdParty.save()
 }
 
 export function handleThirdPartyItemsBought(
