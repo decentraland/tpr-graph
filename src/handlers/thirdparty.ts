@@ -84,7 +84,16 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
     if (value) {
       managers.push(manager.toHexString())
     } else {
-      managers = managers.filter((aManager) => aManager != manager.toHexString())
+
+      let newManagers = new Array<string>()
+
+      for (let i = 0; i < managers.length; i++) {
+        if (managers![i] != manager.toHexString()) {
+          newManagers.push(managers![i])
+        }
+      }
+
+      managers = newManagers
     }
   }
 
