@@ -32,8 +32,9 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
 
   let managers = new Array<string>()
   let eventManagers = event.params._managers
+  let eventManagersLength = event.params._managers.length
 
-  for (let i = 0; i < event.params._managers.length; i++) {
+  for (let i = 0; i < eventManagersLength; i++) {
     let m = eventManagers.pop()
     managers.push((m as Address).toHexString())
   }
@@ -71,13 +72,12 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
 
-  thirdParty.save()
-
   let eventManagersAddresses = event.params._managers
+  let eventManagersLength = event.params._managers.length
   let eventManagersValues = event.params._managerValues
   let managers = thirdParty.managers
 
-  for (let i = 0; i < event.params._managers.length; i++) {
+  for (let i = 0; i < eventManagersLength; i++) {
     let manager = eventManagersAddresses.pop()
     let value = eventManagersValues.pop()
 
