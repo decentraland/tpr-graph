@@ -83,20 +83,12 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
 
     if (value) {
       managers.push(manager.toHexString())
-      thirdParty.managers = managers
     } else {
-      let newManagers = new Array<string>()
-
-      for (let i = 0; i < managers.length; i++) {
-        if (managers![i] != manager.toHexString()) {
-          newManagers.push(managers![i])
-        }
-      }
-
-      thirdParty.managers = managers
-      managers = thirdParty.managers
+      managers = managers.filter((aManager) => aManager != manager.toHexString())
     }
   }
+
+  thirdParty.managers = managers
 
   let metadata = buildMetadata(thirdParty.id, thirdParty.rawMetadata)
   thirdParty.metadata = metadata.id
