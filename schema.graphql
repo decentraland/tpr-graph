@@ -32,6 +32,7 @@ type Item @entity {
   createdAt: BigInt!
   updatedAt: BigInt!
   # search Fields
+  searchThirdPartyId: String!
   "The item id extracted from the blockchain item id (collectionId:itemId)"
   searchItemId: String!
   "The collection id extracted from the blockchain item id (collectionId:itemId)"
