@@ -195,7 +195,7 @@ export class Item extends Entity {
     this.set("rawMetadata", Value.fromString(""));
     this.set("isApproved", Value.fromBoolean(false));
     this.set("thirdParty", Value.fromString(""));
-    this.set("searchThirdPartyId", Value.fromString(""));
+    this.set("reviewedAt", Value.fromBigInt(BigInt.zero()));
     this.set("searchItemId", Value.fromString(""));
     this.set("searchCollectionId", Value.fromString(""));
   }
@@ -297,13 +297,13 @@ export class Item extends Entity {
     }
   }
 
-  get searchThirdPartyId(): string {
-    let value = this.get("searchThirdPartyId");
-    return value!.toString();
+  get reviewedAt(): BigInt {
+    let value = this.get("reviewedAt");
+    return value!.toBigInt();
   }
 
-  set searchThirdPartyId(value: string) {
-    this.set("searchThirdPartyId", Value.fromString(value));
+  set reviewedAt(value: BigInt) {
+    this.set("reviewedAt", Value.fromBigInt(value));
   }
 
   get searchItemId(): string {

@@ -2,6 +2,7 @@ import { BigInt, Address, log } from '@graphprotocol/graph-ts'
 import { Item, ThirdParty } from '../entities/schema'
 import {
   ItemAdded,
+  ItemReviewed,
   ItemUpdated,
   ThirdPartyAdded,
   ThirdPartyItemsBought,
@@ -51,7 +52,6 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   metric.save()
 }
 
-
 export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   if (!isURNValid(event.params._thirdPartyId)) {
     log.error('A third party was added with an invalid URN as an id "{}"', [
@@ -63,9 +63,7 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   let thirdParty = ThirdParty.load(event.params._thirdPartyId)
 
   if (!thirdParty) {
-    log.error('Invalid third party "{}"', [
-      event.params._thirdPartyId
-    ])
+    log.error('Invalid third party "{}"', [event.params._thirdPartyId])
     return
   }
 
@@ -84,12 +82,11 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
     if (value) {
       managers.push(manager.toHexString())
     } else {
-
       let newManagers = new Array<string>()
 
       for (let i = 0; i < managers.length; i++) {
-        if (managers![i] != manager.toHexString()) {
-          newManagers.push(managers![i])
+        if (managers[i] != manager.toHexString()) {
+          newManagers.push(managers[i])
         }
       }
 
@@ -163,13 +160,14 @@ export function handleItemAdded(event: ItemAdded): void {
   let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
 
   let item = Item.load(itemId)
-  if (item === null) {
+  if (item == null) {
     item = new Item(itemId)
   }
 
   item.blockchainItemId = event.params._itemId
   item.rawMetadata = event.params._metadata
   item.thirdParty = event.params._thirdPartyId
+  item.reviewedAt = event.block.timestamp
   item.isApproved = false
   // As of today, the URN is the same as the item entity id
   item.urn = itemId
@@ -184,4 +182,27 @@ export function handleItemAdded(event: ItemAdded): void {
 
   let metric = buildCountFromItem()
   metric.save()
+}
+
+export function handleItemReviewed(event: ItemReviewed): void {
+  let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
+
+  let item = Item.load(itemId)
+  if (item == null) {
+    log.error(
+      'Tried to review inexistent item with id "{}" for TPR with id "{}"',
+      [event.params._itemId, event.params._thirdPartyId]
+    )
+    return
+  }
+
+  item.isApproved = event.params._value
+  item.contentHash = event.params._contentHash
+  item.rawMetadata = event.params._metadata
+  item.reviewedAt = event.block.timestamp
+
+  let metadata = buildMetadata(item.id, item.rawMetadata)
+  item.metadata = metadata.id
+
+  item.save()
 }

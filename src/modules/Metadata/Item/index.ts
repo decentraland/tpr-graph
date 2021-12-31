@@ -91,7 +91,7 @@ function buildWearableCategory(metadataCategory: string): string | null {
 function buildWearableBodyShapes(metadataBodyShapes: string): string[] {
   let splittedBodyShapes = metadataBodyShapes.split(',')
   return splittedBodyShapes.filter(
-    splittedBodyShape => BodyShapes.indexOf(splittedBodyShape) !== -1
+    (splittedBodyShape) => BodyShapes.indexOf(splittedBodyShape) !== -1
   )
 }
 
@@ -113,7 +113,6 @@ export function setItemSearchFields(item: Item): Item {
   let itemId = getSearchItemId(item.blockchainItemId)
   item.searchCollectionId = collectionId!
   item.searchItemId = itemId!
-  item.searchThirdPartyId = item.thirdParty
 
   let metadata = Metadata.load(item.id)
   if (metadata && metadata.type == MetadataTypes.ITEM_WEARABLE_V1) {
