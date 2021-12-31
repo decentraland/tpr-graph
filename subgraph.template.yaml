@@ -62,3 +62,5 @@ dataSources:
           handler: handleItemAdded
         - event: ItemUpdated(string,string,string,address)
           handler: handleItemUpdated
+        - event: ItemReviewed(string,string,string,string,bool,address)
+          handler: handleItemReviewed

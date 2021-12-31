@@ -91,7 +91,7 @@ function buildWearableCategory(metadataCategory: string): string | null {
 function buildWearableBodyShapes(metadataBodyShapes: string): string[] {
   let splittedBodyShapes = metadataBodyShapes.split(',')
   return splittedBodyShapes.filter(
-    splittedBodyShape => BodyShapes.indexOf(splittedBodyShape) !== -1
+    (splittedBodyShape) => BodyShapes.indexOf(splittedBodyShape) !== -1
   )
 }
 
