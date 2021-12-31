@@ -196,6 +196,8 @@ export class Item extends Entity {
     this.set("isApproved", Value.fromBoolean(false));
     this.set("thirdParty", Value.fromString(""));
     this.set("reviewedAt", Value.fromBigInt(BigInt.zero()));
+    this.set("createdAt", Value.fromBigInt(BigInt.zero()));
+    this.set("updatedAt", Value.fromBigInt(BigInt.zero()));
     this.set("searchItemId", Value.fromString(""));
     this.set("searchCollectionId", Value.fromString(""));
   }
@@ -304,6 +306,24 @@ export class Item extends Entity {
 
   set reviewedAt(value: BigInt) {
     this.set("reviewedAt", Value.fromBigInt(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value!.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
+  }
+
+  get updatedAt(): BigInt {
+    let value = this.get("updatedAt");
+    return value!.toBigInt();
+  }
+
+  set updatedAt(value: BigInt) {
+    this.set("updatedAt", Value.fromBigInt(value));
   }
 
   get searchItemId(): string {

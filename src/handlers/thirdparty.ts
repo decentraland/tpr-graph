@@ -130,6 +130,8 @@ export function handleItemUpdated(event: ItemUpdated): void {
   }
 
   item.rawMetadata = event.params._metadata
+  item.updatedAt = event.block.timestamp
+
   let metadata = buildMetadata(item.id, item.rawMetadata)
   item.metadata = metadata.id
 
@@ -167,8 +169,11 @@ export function handleItemAdded(event: ItemAdded): void {
   item.blockchainItemId = event.params._itemId
   item.rawMetadata = event.params._metadata
   item.thirdParty = event.params._thirdPartyId
+  item.createdAt = event.block.timestamp
+  item.updatedAt = event.block.timestamp
   item.reviewedAt = event.block.timestamp
   item.isApproved = false
+
   // As of today, the URN is the same as the item entity id
   item.urn = itemId
 
@@ -199,6 +204,7 @@ export function handleItemReviewed(event: ItemReviewed): void {
   item.isApproved = event.params._value
   item.contentHash = event.params._contentHash
   item.rawMetadata = event.params._metadata
+  item.updatedAt = event.block.timestamp
   item.reviewedAt = event.block.timestamp
 
   let metadata = buildMetadata(item.id, item.rawMetadata)

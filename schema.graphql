@@ -29,6 +29,8 @@ type Item @entity {
   contentHash: String
   "Last time the item was reviewed"
   reviewedAt: BigInt!
+  createdAt: BigInt!
+  updatedAt: BigInt!
   # search Fields
   "The item id extracted from the blockchain item id (collectionId:itemId)"
   searchItemId: String!
