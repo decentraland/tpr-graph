@@ -190,6 +190,14 @@ export function handleItemAdded(event: ItemAdded): void {
 }
 
 export function handleItemReviewed(event: ItemReviewed): void {
+  if (!isBlockchainIdValid(event.params._itemId)) {
+    log.error(
+      'An item was reviewed in the TPR "{}" with an incorrect id "{}"',
+      [event.params._thirdPartyId, event.params._itemId]
+    )
+    return
+  }
+
   let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
 
   let item = Item.load(itemId)
