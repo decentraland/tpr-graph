@@ -7,6 +7,7 @@ import {
   ItemUpdated,
   ThirdPartyAdded,
   ThirdPartyItemSlotsBought,
+  ThirdPartyReviewedWithRoot,
   ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
@@ -123,6 +124,26 @@ export function handleThirdPartyItemSlotsBought(
   thirdParty.save()
 }
 
+export function handleThirdPartyReviewedWithRoot(
+  event: ThirdPartyReviewedWithRoot
+): void {
+  const thirdPartyId = event.params._thirdPartyId
+
+  const thirdParty = ThirdParty.load(thirdPartyId)
+
+  if (thirdParty == null) {
+    log.error(
+      'Attempted to review with root an unregistered third party with id {}',
+      [thirdPartyId]
+    )
+    return
+  }
+
+  thirdParty.root = event.params._root.toHexString();
+
+  thirdParty.save()
+}
+
 export function handleItemUpdated(event: ItemUpdated): void {
   let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
   let item = Item.load(itemId)
@@ -227,7 +248,7 @@ export function handleItemReviewed(event: ItemReviewed): void {
 
 let currentReceiptId = 0
 
-export function handleItemSlotsConsumed(event: ItemSlotsConsumed) {
+export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
   // Update Third Party
 
   const thirdPartyId = event.params._thirdPartyId
