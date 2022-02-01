@@ -1,8 +1,9 @@
 import { BigInt, Address, log } from '@graphprotocol/graph-ts'
-import { Item, ThirdParty } from '../entities/schema'
+import { Curation, Item, Receipt, ThirdParty } from '../entities/schema'
 import {
   ItemAdded,
   ItemReviewed,
+  ItemSlotsConsumed,
   ItemUpdated,
   ThirdPartyAdded,
   ThirdPartyItemSlotsBought,
@@ -222,4 +223,53 @@ export function handleItemReviewed(event: ItemReviewed): void {
   item.metadata = metadata.id
 
   item.save()
+}
+
+let currentReceiptId = 0
+
+export function handleItemSlotsConsumed(event: ItemSlotsConsumed) {
+  // Update Third Party
+
+  const thirdPartyId = event.params._thirdPartyId
+
+  const thirdParty = ThirdParty.load(thirdPartyId)
+
+  if (thirdParty == null) {
+    log.error(
+      'Tried to consume slots for unregistered third party with id {}',
+      [thirdPartyId]
+    )
+    return
+  }
+
+  thirdParty.consumedSlots = thirdParty.consumedSlots.plus(event.params._qty)
+
+  thirdParty.save()
+
+  // Update or create Curation
+
+  const curatorAddress = event.params._sender.toHexString()
+
+  let curation = Curation.load(curatorAddress)
+
+  if (curation == null) {
+    curation = new Curation(curatorAddress)
+  }
+
+  const qty = event.params._qty
+
+  curation.qty = curation.qty.plus(qty)
+
+  curation.save()
+
+  // Create Receipt
+
+  const receipt = new Receipt((++currentReceiptId).toString())
+
+  receipt.qty = qty
+  receipt.thirdParty = thirdPartyId
+  receipt.curation = curation.id
+  receipt.signer = event.params._signer.toHexString()
+
+  receipt.save()
 }
