@@ -45,12 +45,6 @@ type Item @entity {
   searchWearableBodyShapes: [WearableBodyShape!]
 }
 
-type Tier @entity {
-  id: ID!
-  value: BigInt!
-  price: BigInt!
-}
-
 type Metadata @entity {
   id: ID!
   type: MetadataType!
@@ -107,5 +101,4 @@ type Count @entity {
   id: ID!
   thirdPartyTotal: BigInt!
   itemTotal: BigInt!
-  tierTotal: BigInt!
 }

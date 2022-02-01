@@ -47,7 +47,6 @@ Ethereum addresses should be passed lowercased:
 ```typescript
 {
   counts {
-    tierTotal
     thirdPartyTotal
     itemTotal
   }

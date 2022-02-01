@@ -8,29 +8,6 @@ schema:
   file: ./schema.graphql
 dataSources:
   # ---------------------------------------------------------
-  # Tiers ----------------------------------------------
-  # ---------------------------------------------------------
-  - kind: ethereum/contract
-    name: Tier
-    network: {{network}}
-    source:
-      address: '{{address_tiers}}'
-      abi: Tier
-      startBlock: {{startBlock_tiers}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      file: ./src/handlers/tiers.ts
-      entities:
-        - Tier
-      abis:
-        - name: Tier
-          file: ./abis/Tiers.json
-      eventHandlers:
-        - event: TierAdded((uint256,uint256))
-          handler: handleTierAdded
-  # ---------------------------------------------------------
   # Third Party Registry --------------------------------------
   # ---------------------------------------------------------
   - kind: ethereum/contract

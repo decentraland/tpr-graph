@@ -443,60 +443,6 @@ export class Item extends Entity {
   }
 }
 
-export class Tier extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("value", Value.fromBigInt(BigInt.zero()));
-    this.set("price", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Tier entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save Tier entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("Tier", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Tier | null {
-    return changetype<Tier | null>(store.get("Tier", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get value(): BigInt {
-    let value = this.get("value");
-    return value!.toBigInt();
-  }
-
-  set value(value: BigInt) {
-    this.set("value", Value.fromBigInt(value));
-  }
-
-  get price(): BigInt {
-    let value = this.get("price");
-    return value!.toBigInt();
-  }
-
-  set price(value: BigInt) {
-    this.set("price", Value.fromBigInt(value));
-  }
-}
-
 export class Metadata extends Entity {
   constructor(id: string) {
     super();
@@ -721,7 +667,6 @@ export class Count extends Entity {
 
     this.set("thirdPartyTotal", Value.fromBigInt(BigInt.zero()));
     this.set("itemTotal", Value.fromBigInt(BigInt.zero()));
-    this.set("tierTotal", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -766,14 +711,5 @@ export class Count extends Entity {
 
   set itemTotal(value: BigInt) {
     this.set("itemTotal", Value.fromBigInt(value));
-  }
-
-  get tierTotal(): BigInt {
-    let value = this.get("tierTotal");
-    return value!.toBigInt();
-  }
-
-  set tierTotal(value: BigInt) {
-    this.set("tierTotal", Value.fromBigInt(value));
   }
 }
