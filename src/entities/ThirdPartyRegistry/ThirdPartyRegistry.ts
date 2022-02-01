@@ -192,25 +192,55 @@ export class ItemReviewed__Params {
   }
 }
 
-export class ItemTiersSet extends ethereum.Event {
-  get params(): ItemTiersSet__Params {
-    return new ItemTiersSet__Params(this);
+export class ItemSlotPriceSet extends ethereum.Event {
+  get params(): ItemSlotPriceSet__Params {
+    return new ItemSlotPriceSet__Params(this);
   }
 }
 
-export class ItemTiersSet__Params {
-  _event: ItemTiersSet;
+export class ItemSlotPriceSet__Params {
+  _event: ItemSlotPriceSet;
 
-  constructor(event: ItemTiersSet) {
+  constructor(event: ItemSlotPriceSet) {
     this._event = event;
   }
 
-  get _oldItemTiers(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get _oldItemSlotPrice(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 
-  get _newItemTiers(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get _newItemSlotPrice(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ItemSlotsConsumed extends ethereum.Event {
+  get params(): ItemSlotsConsumed__Params {
+    return new ItemSlotsConsumed__Params(this);
+  }
+}
+
+export class ItemSlotsConsumed__Params {
+  _event: ItemSlotsConsumed;
+
+  constructor(event: ItemSlotsConsumed) {
+    this._event = event;
+  }
+
+  get _thirdPartyId(): string {
+    return this._event.parameters[0].value.toString();
+  }
+
+  get _qty(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get _signer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get _sender(): Address {
+    return this._event.parameters[3].value.toAddress();
   }
 }
 
@@ -270,6 +300,28 @@ export class MetaTransactionExecuted__Params {
   }
 }
 
+export class OracleSet extends ethereum.Event {
+  get params(): OracleSet__Params {
+    return new OracleSet__Params(this);
+  }
+}
+
+export class OracleSet__Params {
+  _event: OracleSet;
+
+  constructor(event: OracleSet) {
+    this._event = event;
+  }
+
+  get _oldOracle(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _newOracle(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class OwnershipTransferred extends ethereum.Event {
   get params(): OwnershipTransferred__Params {
     return new OwnershipTransferred__Params(this);
@@ -325,8 +377,12 @@ export class ThirdPartyAdded__Params {
     return this._event.parameters[4].value.toAddressArray();
   }
 
+  get _itemSlots(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
   get _caller(): Address {
-    return this._event.parameters[5].value.toAddress();
+    return this._event.parameters[6].value.toAddress();
   }
 }
 
@@ -352,16 +408,16 @@ export class ThirdPartyAgregatorSet__Params {
   }
 }
 
-export class ThirdPartyItemsBought extends ethereum.Event {
-  get params(): ThirdPartyItemsBought__Params {
-    return new ThirdPartyItemsBought__Params(this);
+export class ThirdPartyItemSlotsBought extends ethereum.Event {
+  get params(): ThirdPartyItemSlotsBought__Params {
+    return new ThirdPartyItemSlotsBought__Params(this);
   }
 }
 
-export class ThirdPartyItemsBought__Params {
-  _event: ThirdPartyItemsBought;
+export class ThirdPartyItemSlotsBought__Params {
+  _event: ThirdPartyItemSlotsBought;
 
-  constructor(event: ThirdPartyItemsBought) {
+  constructor(event: ThirdPartyItemSlotsBought) {
     this._event = event;
   }
 
@@ -408,6 +464,66 @@ export class ThirdPartyReviewed__Params {
   }
 }
 
+export class ThirdPartyReviewedWithRoot extends ethereum.Event {
+  get params(): ThirdPartyReviewedWithRoot__Params {
+    return new ThirdPartyReviewedWithRoot__Params(this);
+  }
+}
+
+export class ThirdPartyReviewedWithRoot__Params {
+  _event: ThirdPartyReviewedWithRoot;
+
+  constructor(event: ThirdPartyReviewedWithRoot) {
+    this._event = event;
+  }
+
+  get _thirdPartyId(): string {
+    return this._event.parameters[0].value.toString();
+  }
+
+  get _root(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+
+  get _isApproved(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+
+  get _sender(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+}
+
+export class ThirdPartyRuleAdded extends ethereum.Event {
+  get params(): ThirdPartyRuleAdded__Params {
+    return new ThirdPartyRuleAdded__Params(this);
+  }
+}
+
+export class ThirdPartyRuleAdded__Params {
+  _event: ThirdPartyRuleAdded;
+
+  constructor(event: ThirdPartyRuleAdded) {
+    this._event = event;
+  }
+
+  get _thirdPartyId(): string {
+    return this._event.parameters[0].value.toString();
+  }
+
+  get _rule(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get _value(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+
+  get _sender(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+}
+
 export class ThirdPartyUpdated extends ethereum.Event {
   get params(): ThirdPartyUpdated__Params {
     return new ThirdPartyUpdated__Params(this);
@@ -441,8 +557,12 @@ export class ThirdPartyUpdated__Params {
     return this._event.parameters[4].value.toBooleanArray();
   }
 
+  get _itemSlots(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
   get _caller(): Address {
-    return this._event.parameters[5].value.toAddress();
+    return this._event.parameters[6].value.toAddress();
   }
 }
 
@@ -465,33 +585,41 @@ export class ThirdPartyRegistry__itemsByIdResultValue0Struct extends ethereum.Tu
 }
 
 export class ThirdPartyRegistry__thirdPartiesResult {
-  value0: string;
-  value1: string;
+  value0: boolean;
+  value1: Bytes;
   value2: BigInt;
-  value3: boolean;
+  value3: BigInt;
   value4: BigInt;
+  value5: string;
+  value6: string;
 
   constructor(
-    value0: string,
-    value1: string,
+    value0: boolean,
+    value1: Bytes,
     value2: BigInt,
-    value3: boolean,
-    value4: BigInt
+    value3: BigInt,
+    value4: BigInt,
+    value5: string,
+    value6: string
   ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
     this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromString(this.value0));
-    map.set("value1", ethereum.Value.fromString(this.value1));
+    map.set("value0", ethereum.Value.fromBoolean(this.value0));
+    map.set("value1", ethereum.Value.fromFixedBytes(this.value1));
     map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromBoolean(this.value3));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
     map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromString(this.value5));
+    map.set("value6", ethereum.Value.fromString(this.value6));
     return map;
   }
 }
@@ -611,6 +739,38 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  getRuleValue(_thirdPartyId: string, _rule: string): boolean {
+    let result = super.call(
+      "getRuleValue",
+      "getRuleValue(string,string):(bool)",
+      [
+        ethereum.Value.fromString(_thirdPartyId),
+        ethereum.Value.fromString(_rule)
+      ]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_getRuleValue(
+    _thirdPartyId: string,
+    _rule: string
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "getRuleValue",
+      "getRuleValue(string,string):(bool)",
+      [
+        ethereum.Value.fromString(_thirdPartyId),
+        ethereum.Value.fromString(_rule)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   initialItemValue(): boolean {
     let result = super.call(
       "initialItemValue",
@@ -721,19 +881,23 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  itemTiers(): Address {
-    let result = super.call("itemTiers", "itemTiers():(address)", []);
+  itemSlotPrice(): BigInt {
+    let result = super.call("itemSlotPrice", "itemSlotPrice():(uint256)", []);
 
-    return result[0].toAddress();
+    return result[0].toBigInt();
   }
 
-  try_itemTiers(): ethereum.CallResult<Address> {
-    let result = super.tryCall("itemTiers", "itemTiers():(address)", []);
+  try_itemSlotPrice(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "itemSlotPrice",
+      "itemSlotPrice():(uint256)",
+      []
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   itemsById(
@@ -796,6 +960,21 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  oracle(): Address {
+    let result = super.call("oracle", "oracle():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_oracle(): ethereum.CallResult<Address> {
+    let result = super.tryCall("oracle", "oracle():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   owner(): Address {
     let result = super.call("owner", "owner():(address)", []);
 
@@ -814,16 +993,18 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
   thirdParties(param0: string): ThirdPartyRegistry__thirdPartiesResult {
     let result = super.call(
       "thirdParties",
-      "thirdParties(string):(string,string,uint256,bool,uint256)",
+      "thirdParties(string):(bool,bytes32,uint256,uint256,uint256,string,string)",
       [ethereum.Value.fromString(param0)]
     );
 
     return new ThirdPartyRegistry__thirdPartiesResult(
-      result[0].toString(),
-      result[1].toString(),
+      result[0].toBoolean(),
+      result[1].toBytes(),
       result[2].toBigInt(),
-      result[3].toBoolean(),
-      result[4].toBigInt()
+      result[3].toBigInt(),
+      result[4].toBigInt(),
+      result[5].toString(),
+      result[6].toString()
     );
   }
 
@@ -832,7 +1013,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
   ): ethereum.CallResult<ThirdPartyRegistry__thirdPartiesResult> {
     let result = super.tryCall(
       "thirdParties",
-      "thirdParties(string):(string,string,uint256,bool,uint256)",
+      "thirdParties(string):(bool,bytes32,uint256,uint256,uint256,string,string)",
       [ethereum.Value.fromString(param0)]
     );
     if (result.reverted) {
@@ -841,11 +1022,13 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(
       new ThirdPartyRegistry__thirdPartiesResult(
-        value[0].toString(),
-        value[1].toString(),
+        value[0].toBoolean(),
+        value[1].toBytes(),
         value[2].toBigInt(),
-        value[3].toBoolean(),
-        value[4].toBigInt()
+        value[3].toBigInt(),
+        value[4].toBigInt(),
+        value[5].toString(),
+        value[6].toString()
       )
     );
   }
@@ -957,8 +1140,12 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[4].value.toAddress();
   }
 
-  get _itemTiers(): Address {
+  get _oracle(): Address {
     return this._call.inputValues[5].value.toAddress();
+  }
+
+  get _itemSlotPrice(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
   }
 }
 
@@ -1068,6 +1255,10 @@ export class AddThirdPartiesCall_thirdPartiesStruct extends ethereum.Tuple {
   get managerValues(): Array<boolean> {
     return this[4].toBooleanArray();
   }
+
+  get slots(): BigInt {
+    return this[5].toBigInt();
+  }
 }
 
 export class BuyItemSlotsCall extends ethereum.Call {
@@ -1091,11 +1282,11 @@ export class BuyItemSlotsCall__Inputs {
     return this._call.inputValues[0].value.toString();
   }
 
-  get _tierIndex(): BigInt {
+  get _qty(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get _price(): BigInt {
+  get _maxPrice(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
 }
@@ -1105,6 +1296,64 @@ export class BuyItemSlotsCall__Outputs {
 
   constructor(call: BuyItemSlotsCall) {
     this._call = call;
+  }
+}
+
+export class ConsumeSlotsCall extends ethereum.Call {
+  get inputs(): ConsumeSlotsCall__Inputs {
+    return new ConsumeSlotsCall__Inputs(this);
+  }
+
+  get outputs(): ConsumeSlotsCall__Outputs {
+    return new ConsumeSlotsCall__Outputs(this);
+  }
+}
+
+export class ConsumeSlotsCall__Inputs {
+  _call: ConsumeSlotsCall;
+
+  constructor(call: ConsumeSlotsCall) {
+    this._call = call;
+  }
+
+  get _thirdPartyId(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+
+  get _consumeSlotsParams(): Array<ConsumeSlotsCall_consumeSlotsParamsStruct> {
+    return this._call.inputValues[1].value.toTupleArray<
+      ConsumeSlotsCall_consumeSlotsParamsStruct
+    >();
+  }
+}
+
+export class ConsumeSlotsCall__Outputs {
+  _call: ConsumeSlotsCall;
+
+  constructor(call: ConsumeSlotsCall) {
+    this._call = call;
+  }
+}
+
+export class ConsumeSlotsCall_consumeSlotsParamsStruct extends ethereum.Tuple {
+  get qty(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get salt(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get sigR(): Bytes {
+    return this[2].toBytes();
+  }
+
+  get sigS(): Bytes {
+    return this[3].toBytes();
+  }
+
+  get sigV(): i32 {
+    return this[4].toI32();
   }
 }
 
@@ -1247,6 +1496,70 @@ export class ReviewThirdPartiesCall_thirdPartiesItemsStruct extends ethereum.Tup
 
   get value(): boolean {
     return this[3].toBoolean();
+  }
+}
+
+export class ReviewThirdPartyWithRootCall extends ethereum.Call {
+  get inputs(): ReviewThirdPartyWithRootCall__Inputs {
+    return new ReviewThirdPartyWithRootCall__Inputs(this);
+  }
+
+  get outputs(): ReviewThirdPartyWithRootCall__Outputs {
+    return new ReviewThirdPartyWithRootCall__Outputs(this);
+  }
+}
+
+export class ReviewThirdPartyWithRootCall__Inputs {
+  _call: ReviewThirdPartyWithRootCall;
+
+  constructor(call: ReviewThirdPartyWithRootCall) {
+    this._call = call;
+  }
+
+  get _thirdPartyId(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+
+  get _root(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+
+  get _consumeSlotsParams(): Array<
+    ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct
+  > {
+    return this._call.inputValues[2].value.toTupleArray<
+      ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct
+    >();
+  }
+}
+
+export class ReviewThirdPartyWithRootCall__Outputs {
+  _call: ReviewThirdPartyWithRootCall;
+
+  constructor(call: ReviewThirdPartyWithRootCall) {
+    this._call = call;
+  }
+}
+
+export class ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct extends ethereum.Tuple {
+  get qty(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get salt(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get sigR(): Bytes {
+    return this[2].toBytes();
+  }
+
+  get sigS(): Bytes {
+    return this[3].toBytes();
+  }
+
+  get sigV(): i32 {
+    return this[4].toI32();
   }
 }
 
@@ -1400,32 +1713,100 @@ export class SetInitialThirdPartyValueCall__Outputs {
   }
 }
 
-export class SetItemTiersCall extends ethereum.Call {
-  get inputs(): SetItemTiersCall__Inputs {
-    return new SetItemTiersCall__Inputs(this);
+export class SetItemSlotPriceCall extends ethereum.Call {
+  get inputs(): SetItemSlotPriceCall__Inputs {
+    return new SetItemSlotPriceCall__Inputs(this);
   }
 
-  get outputs(): SetItemTiersCall__Outputs {
-    return new SetItemTiersCall__Outputs(this);
+  get outputs(): SetItemSlotPriceCall__Outputs {
+    return new SetItemSlotPriceCall__Outputs(this);
   }
 }
 
-export class SetItemTiersCall__Inputs {
-  _call: SetItemTiersCall;
+export class SetItemSlotPriceCall__Inputs {
+  _call: SetItemSlotPriceCall;
 
-  constructor(call: SetItemTiersCall) {
+  constructor(call: SetItemSlotPriceCall) {
     this._call = call;
   }
 
-  get _newItemTiers(): Address {
+  get _newItemSlotPrice(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetItemSlotPriceCall__Outputs {
+  _call: SetItemSlotPriceCall;
+
+  constructor(call: SetItemSlotPriceCall) {
+    this._call = call;
+  }
+}
+
+export class SetOracleCall extends ethereum.Call {
+  get inputs(): SetOracleCall__Inputs {
+    return new SetOracleCall__Inputs(this);
+  }
+
+  get outputs(): SetOracleCall__Outputs {
+    return new SetOracleCall__Outputs(this);
+  }
+}
+
+export class SetOracleCall__Inputs {
+  _call: SetOracleCall;
+
+  constructor(call: SetOracleCall) {
+    this._call = call;
+  }
+
+  get _newOracle(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class SetItemTiersCall__Outputs {
-  _call: SetItemTiersCall;
+export class SetOracleCall__Outputs {
+  _call: SetOracleCall;
 
-  constructor(call: SetItemTiersCall) {
+  constructor(call: SetOracleCall) {
+    this._call = call;
+  }
+}
+
+export class SetRulesCall extends ethereum.Call {
+  get inputs(): SetRulesCall__Inputs {
+    return new SetRulesCall__Inputs(this);
+  }
+
+  get outputs(): SetRulesCall__Outputs {
+    return new SetRulesCall__Outputs(this);
+  }
+}
+
+export class SetRulesCall__Inputs {
+  _call: SetRulesCall;
+
+  constructor(call: SetRulesCall) {
+    this._call = call;
+  }
+
+  get _thirdPartyId(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+
+  get _rules(): Array<string> {
+    return this._call.inputValues[1].value.toStringArray();
+  }
+
+  get _values(): Array<boolean> {
+    return this._call.inputValues[2].value.toBooleanArray();
+  }
+}
+
+export class SetRulesCall__Outputs {
+  _call: SetRulesCall;
+
+  constructor(call: SetRulesCall) {
     this._call = call;
   }
 }
@@ -1587,5 +1968,9 @@ export class UpdateThirdPartiesCall_thirdPartiesStruct extends ethereum.Tuple {
 
   get managerValues(): Array<boolean> {
     return this[4].toBooleanArray();
+  }
+
+  get slots(): BigInt {
+    return this[5].toBigInt();
   }
 }
