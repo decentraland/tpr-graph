@@ -5,7 +5,7 @@ import {
   ItemReviewed,
   ItemUpdated,
   ThirdPartyAdded,
-  ThirdPartyItemsBought,
+  ThirdPartyItemSlotsBought,
   ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
 import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
@@ -27,7 +27,7 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
 
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
-  thirdParty.maxItems = BigInt.fromI32(0)
+  thirdParty.maxItems = event.params._itemSlots
   thirdParty.totalItems = BigInt.fromI32(0)
   thirdParty.isApproved = event.params._isApproved
 
@@ -68,6 +68,7 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   }
 
   thirdParty.resolver = event.params._resolver
+  thirdParty.maxItems = thirdParty.maxItems.plus(event.params._itemSlots)
   thirdParty.rawMetadata = event.params._metadata
 
   let eventManagersAddresses = event.params._managers
@@ -104,10 +105,11 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   thirdParty.save()
 }
 
-export function handleThirdPartyItemsBought(
-  event: ThirdPartyItemsBought
+export function handleThirdPartyItemSlotsBought(
+  event: ThirdPartyItemSlotsBought
 ): void {
   let thirdParty = ThirdParty.load(event.params._thirdPartyId)
+
   if (thirdParty == null) {
     log.error(
       'A non existent Third Party with id "{}" bought "{}" item slots',
@@ -115,6 +117,7 @@ export function handleThirdPartyItemsBought(
     )
     return
   }
+
   thirdParty.maxItems = thirdParty.maxItems.plus(event.params._value)
   thirdParty.save()
 }
