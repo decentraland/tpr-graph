@@ -8,11 +8,27 @@ type ThirdParty @entity {
   totalItems: BigInt!
   items: [Item!] @derivedFrom(field: "thirdParty")
   metadata: Metadata!
+  root: String!
+  consumedSlots: BigInt!
 
   # Searcheable fields
   searchName: String
   searchDescription: String
   searchText: String
+}
+
+type Curation @entity {
+  id: ID!
+  qty: BigInt!
+  receipts: [Receipt!] @derivedFrom(field: "curation")
+}
+
+type Receipt @entity {
+  id: ID!
+  thirdParty: ThirdParty!
+  curation: Curation!
+  qty: BigInt!
+  signer: String!
 }
 
 type Item @entity {

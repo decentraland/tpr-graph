@@ -24,6 +24,8 @@ export class ThirdParty extends Entity {
     this.set("maxItems", Value.fromBigInt(BigInt.zero()));
     this.set("totalItems", Value.fromBigInt(BigInt.zero()));
     this.set("metadata", Value.fromString(""));
+    this.set("root", Value.fromString(""));
+    this.set("consumedSlots", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -132,6 +134,24 @@ export class ThirdParty extends Entity {
     this.set("metadata", Value.fromString(value));
   }
 
+  get root(): string {
+    let value = this.get("root");
+    return value!.toString();
+  }
+
+  set root(value: string) {
+    this.set("root", Value.fromString(value));
+  }
+
+  get consumedSlots(): BigInt {
+    let value = this.get("consumedSlots");
+    return value!.toBigInt();
+  }
+
+  set consumedSlots(value: BigInt) {
+    this.set("consumedSlots", Value.fromBigInt(value));
+  }
+
   get searchName(): string | null {
     let value = this.get("searchName");
     if (!value || value.kind == ValueKind.NULL) {
@@ -181,6 +201,141 @@ export class ThirdParty extends Entity {
     } else {
       this.set("searchText", Value.fromString(<string>value));
     }
+  }
+}
+
+export class Curation extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("qty", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Curation entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Curation entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Curation", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Curation | null {
+    return changetype<Curation | null>(store.get("Curation", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get qty(): BigInt {
+    let value = this.get("qty");
+    return value!.toBigInt();
+  }
+
+  set qty(value: BigInt) {
+    this.set("qty", Value.fromBigInt(value));
+  }
+
+  get receipts(): Array<string> | null {
+    let value = this.get("receipts");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set receipts(value: Array<string> | null) {
+    if (!value) {
+      this.unset("receipts");
+    } else {
+      this.set("receipts", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+}
+
+export class Receipt extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("thirdParty", Value.fromString(""));
+    this.set("curation", Value.fromString(""));
+    this.set("qty", Value.fromBigInt(BigInt.zero()));
+    this.set("signer", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Receipt entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Receipt entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Receipt", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Receipt | null {
+    return changetype<Receipt | null>(store.get("Receipt", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get thirdParty(): string {
+    let value = this.get("thirdParty");
+    return value!.toString();
+  }
+
+  set thirdParty(value: string) {
+    this.set("thirdParty", Value.fromString(value));
+  }
+
+  get curation(): string {
+    let value = this.get("curation");
+    return value!.toString();
+  }
+
+  set curation(value: string) {
+    this.set("curation", Value.fromString(value));
+  }
+
+  get qty(): BigInt {
+    let value = this.get("qty");
+    return value!.toBigInt();
+  }
+
+  set qty(value: BigInt) {
+    this.set("qty", Value.fromBigInt(value));
+  }
+
+  get signer(): string {
+    let value = this.get("signer");
+    return value!.toString();
+  }
+
+  set signer(value: string) {
+    this.set("signer", Value.fromString(value));
   }
 }
 
