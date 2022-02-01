@@ -10,7 +10,12 @@ import {
   ThirdPartyReviewedWithRoot,
   ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
-import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
+import {
+  buildCountFromCuration,
+  buildCountFromItem,
+  buildCountFromReceipt,
+  buildCountFromThirdParty
+} from '../modules/Count'
 import { isURNValid } from '../modules/ThirdParty'
 import { buildItemId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
@@ -139,7 +144,7 @@ export function handleThirdPartyReviewedWithRoot(
     return
   }
 
-  thirdParty.root = event.params._root.toHexString();
+  thirdParty.root = event.params._root.toHexString()
 
   thirdParty.save()
 }
@@ -275,6 +280,8 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
 
   if (curation == null) {
     curation = new Curation(curatorAddress)
+    const metric = buildCountFromCuration()
+    metric.save()
   }
 
   const qty = event.params._qty
@@ -286,6 +293,8 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
   // Create Receipt
 
   const receipt = new Receipt((++currentReceiptId).toString())
+  const metric = buildCountFromReceipt()
+  metric.save()
 
   receipt.qty = qty
   receipt.thirdParty = thirdPartyId

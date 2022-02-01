@@ -822,6 +822,8 @@ export class Count extends Entity {
 
     this.set("thirdPartyTotal", Value.fromBigInt(BigInt.zero()));
     this.set("itemTotal", Value.fromBigInt(BigInt.zero()));
+    this.set("receiptTotal", Value.fromBigInt(BigInt.zero()));
+    this.set("curationTotal", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -866,5 +868,23 @@ export class Count extends Entity {
 
   set itemTotal(value: BigInt) {
     this.set("itemTotal", Value.fromBigInt(value));
+  }
+
+  get receiptTotal(): BigInt {
+    let value = this.get("receiptTotal");
+    return value!.toBigInt();
+  }
+
+  set receiptTotal(value: BigInt) {
+    this.set("receiptTotal", Value.fromBigInt(value));
+  }
+
+  get curationTotal(): BigInt {
+    let value = this.get("curationTotal");
+    return value!.toBigInt();
+  }
+
+  set curationTotal(value: BigInt) {
+    this.set("curationTotal", Value.fromBigInt(value));
   }
 }

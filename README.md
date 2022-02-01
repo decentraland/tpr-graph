@@ -49,6 +49,8 @@ Ethereum addresses should be passed lowercased:
   counts {
     thirdPartyTotal
     itemTotal
+    curationTotal
+    receiptTotal
   }
 }
 ```

@@ -117,4 +117,6 @@ type Count @entity {
   id: ID!
   thirdPartyTotal: BigInt!
   itemTotal: BigInt!
+  receiptTotal: BigInt!
+  curationTotal: BigInt!
 }
