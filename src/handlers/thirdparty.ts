@@ -251,8 +251,6 @@ export function handleItemReviewed(event: ItemReviewed): void {
   item.save()
 }
 
-let currentReceiptId = 0
-
 export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
   // Update Third Party
 
@@ -292,9 +290,10 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
 
   // Create Receipt
 
-  const receipt = new Receipt((++currentReceiptId).toString())
   const metric = buildCountFromReceipt()
   metric.save()
+  
+  const receipt = new Receipt(metric.receiptTotal.toString())
 
   receipt.qty = qty
   receipt.thirdParty = thirdPartyId
