@@ -138,7 +138,7 @@ export function handleThirdPartyReviewedWithRoot(
 
   if (thirdParty == null) {
     log.error(
-      'Attempted to review with root an unregistered third party with id {}',
+      'Attempted to review with root using an unregistered third party with id {}',
       [thirdPartyId]
     )
     return
