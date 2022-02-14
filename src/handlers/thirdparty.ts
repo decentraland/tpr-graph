@@ -1,14 +1,21 @@
 import { BigInt, Address, log } from '@graphprotocol/graph-ts'
-import { Item, ThirdParty } from '../entities/schema'
+import { Curation, Item, Receipt, ThirdParty } from '../entities/schema'
 import {
   ItemAdded,
   ItemReviewed,
+  ItemSlotsConsumed,
   ItemUpdated,
   ThirdPartyAdded,
-  ThirdPartyItemsBought,
+  ThirdPartyItemSlotsBought,
+  ThirdPartyReviewedWithRoot,
   ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
-import { buildCountFromItem, buildCountFromThirdParty } from '../modules/Count'
+import {
+  buildCountFromCuration,
+  buildCountFromItem,
+  buildCountFromReceipt,
+  buildCountFromThirdParty
+} from '../modules/Count'
 import { isURNValid } from '../modules/ThirdParty'
 import { buildItemId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
@@ -27,7 +34,7 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
 
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
-  thirdParty.maxItems = BigInt.fromI32(0)
+  thirdParty.maxItems = event.params._itemSlots
   thirdParty.totalItems = BigInt.fromI32(0)
   thirdParty.isApproved = event.params._isApproved
 
@@ -68,6 +75,7 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   }
 
   thirdParty.resolver = event.params._resolver
+  thirdParty.maxItems = thirdParty.maxItems.plus(event.params._itemSlots)
   thirdParty.rawMetadata = event.params._metadata
 
   let eventManagersAddresses = event.params._managers
@@ -104,10 +112,11 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   thirdParty.save()
 }
 
-export function handleThirdPartyItemsBought(
-  event: ThirdPartyItemsBought
+export function handleThirdPartyItemSlotsBought(
+  event: ThirdPartyItemSlotsBought
 ): void {
   let thirdParty = ThirdParty.load(event.params._thirdPartyId)
+
   if (thirdParty == null) {
     log.error(
       'A non existent Third Party with id "{}" bought "{}" item slots',
@@ -115,7 +124,28 @@ export function handleThirdPartyItemsBought(
     )
     return
   }
+
   thirdParty.maxItems = thirdParty.maxItems.plus(event.params._value)
+  thirdParty.save()
+}
+
+export function handleThirdPartyReviewedWithRoot(
+  event: ThirdPartyReviewedWithRoot
+): void {
+  const thirdPartyId = event.params._thirdPartyId
+
+  const thirdParty = ThirdParty.load(thirdPartyId)
+
+  if (thirdParty == null) {
+    log.error(
+      'Attempted to review with root using an unregistered third party with id {}',
+      [thirdPartyId]
+    )
+    return
+  }
+
+  thirdParty.root = event.params._root.toHexString()
+
   thirdParty.save()
 }
 
@@ -219,4 +249,56 @@ export function handleItemReviewed(event: ItemReviewed): void {
   item.metadata = metadata.id
 
   item.save()
+}
+
+export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
+  // Update Third Party
+
+  const thirdPartyId = event.params._thirdPartyId
+
+  const thirdParty = ThirdParty.load(thirdPartyId)
+
+  if (thirdParty == null) {
+    log.error(
+      'Tried to consume slots for unregistered third party with id {}',
+      [thirdPartyId]
+    )
+    return
+  }
+
+  thirdParty.consumedSlots = thirdParty.consumedSlots.plus(event.params._qty)
+
+  thirdParty.save()
+
+  // Update or create Curation
+
+  const curatorAddress = event.params._sender.toHexString()
+
+  let curation = Curation.load(curatorAddress)
+
+  if (curation == null) {
+    curation = new Curation(curatorAddress)
+    const metric = buildCountFromCuration()
+    metric.save()
+  }
+
+  const qty = event.params._qty
+
+  curation.qty = curation.qty.plus(qty)
+
+  curation.save()
+
+  // Create Receipt
+
+  const metric = buildCountFromReceipt()
+  metric.save()
+  
+  const receipt = new Receipt(metric.receiptTotal.toString())
+
+  receipt.qty = qty
+  receipt.thirdParty = thirdPartyId
+  receipt.curation = curation.id
+  receipt.signer = event.params._signer.toHexString()
+
+  receipt.save()
 }

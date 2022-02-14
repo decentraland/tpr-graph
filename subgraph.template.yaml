@@ -8,29 +8,6 @@ schema:
   file: ./schema.graphql
 dataSources:
   # ---------------------------------------------------------
-  # Tiers ----------------------------------------------
-  # ---------------------------------------------------------
-  - kind: ethereum/contract
-    name: Tier
-    network: {{network}}
-    source:
-      address: '{{address_tiers}}'
-      abi: Tier
-      startBlock: {{startBlock_tiers}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      file: ./src/handlers/tiers.ts
-      entities:
-        - Tier
-      abis:
-        - name: Tier
-          file: ./abis/Tiers.json
-      eventHandlers:
-        - event: TierAdded((uint256,uint256))
-          handler: handleTierAdded
-  # ---------------------------------------------------------
   # Third Party Registry --------------------------------------
   # ---------------------------------------------------------
   - kind: ethereum/contract
@@ -52,15 +29,19 @@ dataSources:
         - name: ThirdPartyRegistry
           file: ./abis/ThirdPartyRegistry.json
       eventHandlers:
-        - event: ThirdPartyAdded(string,string,string,bool,address[],address)
+        - event: ThirdPartyAdded(string,string,string,bool,address[],uint256,address)
           handler: handleThirdPartyAdded
-        - event: ThirdPartyUpdated(string,string,string,address[],bool[],address)
+        - event: ThirdPartyUpdated(string,string,string,address[],bool[],uint256,address)
           handler: handleThirdPartyUpdated
-        - event: ThirdPartyItemsBought(string,uint256,uint256,address)
-          handler: handleThirdPartyItemsBought
+        - event: ThirdPartyItemSlotsBought(string,uint256,uint256,address)
+          handler: handleThirdPartyItemSlotsBought
+        - event: ThirdPartyReviewedWithRoot(string,bytes32,bool,address)
+          handler: handleThirdPartyReviewedWithRoot
         - event: ItemAdded(string,string,string,bool,address)
           handler: handleItemAdded
         - event: ItemUpdated(string,string,string,address)
           handler: handleItemUpdated
         - event: ItemReviewed(string,string,string,string,bool,address)
           handler: handleItemReviewed
+        - event: ItemSlotsConsumed(string,uint256,indexed address,indexed address)
+          handler: handleItemSlotsConsumed

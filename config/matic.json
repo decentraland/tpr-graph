@@ -1,7 +1,5 @@
 {
   "network": "matic",
   "address_tpr": "",
-  "startBock_tpr": 0,
-  "address_tiers": "",
-  "startBlock_tiers": 0
+  "startBock_tpr": 0
 }

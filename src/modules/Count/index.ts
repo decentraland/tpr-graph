@@ -10,18 +10,11 @@ export function buildCount(): Count {
     count = new Count(DEFAULT_ID)
     count.thirdPartyTotal = BigInt.fromI32(0)
     count.itemTotal = BigInt.fromI32(0)
-    count.tierTotal = BigInt.fromI32(0)
+    count.curationTotal = BigInt.fromI32(0)
+    count.receiptTotal = BigInt.fromI32(0)
   }
 
   return count as Count
-}
-
-export function buildCountFromTier(): Count {
-  let count = buildCount()
-
-  count.tierTotal = count.tierTotal.plus(BigInt.fromI32(1))
-
-  return count
 }
 
 export function buildCountFromThirdParty(): Count {
@@ -36,6 +29,22 @@ export function buildCountFromItem(): Count {
   let count = buildCount()
 
   count.itemTotal = count.itemTotal.plus(BigInt.fromI32(1))
+
+  return count
+}
+
+export function buildCountFromCuration(): Count {
+  let count = buildCount()
+
+  count.curationTotal = count.curationTotal.plus(BigInt.fromI32(1))
+
+  return count
+}
+
+export function buildCountFromReceipt(): Count {
+  let count = buildCount()
+
+  count.receiptTotal = count.receiptTotal.plus(BigInt.fromI32(1))
 
   return count
 }

@@ -1,7 +1,5 @@
 {
   "network": "mumbai",
-  "address_tpr": "0xC6349360CF0143Bf54FDC376060532C044883b8C",
-  "startBlock_tpr": 19556157,
-  "address_tiers": "0xdC899B9c1Fa80292606C3cfbA88bbBf0935c2e48",
-  "startBlock_tiers": 19555649
+  "address_tpr": "0x83cB8cd93698c0726AF6b5497540C9A1B410fFA2",
+  "startBlock_tpr": 24590272
 }
