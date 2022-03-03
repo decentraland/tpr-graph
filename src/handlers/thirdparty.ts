@@ -79,30 +79,31 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
   thirdParty.rawMetadata = event.params._metadata
 
   let eventManagersAddresses = event.params._managers
-  let eventManagersLength = event.params._managers.length
   let eventManagersValues = event.params._managerValues
-  let managers = thirdParty.managers
 
-  for (let i = 0; i < eventManagersLength; i++) {
-    let manager = eventManagersAddresses.pop()
-    let value = eventManagersValues.pop()
+  let managers = new Set<string>()
 
-    if (value) {
-      managers.push(manager.toHexString())
+  // Add previous members to set
+  for (let i = 0; i < thirdParty.managers.length; i++) {
+    managers.add(thirdParty.managers[i])
+  }
+
+  // From the managers and values received, add or remove
+  // a manager from the set
+  for (let i = 0; i < eventManagersAddresses.length; i++) {
+    const manager = eventManagersAddresses[i]
+    const val = eventManagersValues[i]
+
+    if (val) {
+      managers.add(manager.toHexString())
     } else {
-      let newManagers = new Array<string>()
-
-      for (let i = 0; i < managers.length; i++) {
-        if (managers[i] != manager.toHexString()) {
-          newManagers.push(managers[i])
-        }
-      }
-
-      managers = newManagers
+      managers.delete(manager.toHexString())
     }
   }
 
-  thirdParty.managers = managers
+  // Assign the managers to the third party entity
+  // @ts-ignore - managers.values() returns an Array<string> and not an IterableIterator<string> as the IDE suggests
+  thirdParty.managers = managers.values()
 
   let metadata = buildMetadata(thirdParty.id, thirdParty.rawMetadata)
   thirdParty.metadata = metadata.id
@@ -292,7 +293,7 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
 
   const metric = buildCountFromReceipt()
   metric.save()
-  
+
   const receipt = new Receipt(metric.receiptTotal.toString())
 
   receipt.qty = qty
