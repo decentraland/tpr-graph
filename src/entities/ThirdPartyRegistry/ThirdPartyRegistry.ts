@@ -149,7 +149,7 @@ export class ItemAdded__Params {
     return this._event.parameters[3].value.toBoolean();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[4].value.toAddress();
   }
 }
@@ -187,7 +187,7 @@ export class ItemReviewed__Params {
     return this._event.parameters[4].value.toBoolean();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[5].value.toAddress();
   }
 }
@@ -239,8 +239,12 @@ export class ItemSlotsConsumed__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
+  get _messageHash(): Bytes {
+    return this._event.parameters[3].value.toBytes();
+  }
+
   get _sender(): Address {
-    return this._event.parameters[3].value.toAddress();
+    return this._event.parameters[4].value.toAddress();
   }
 }
 
@@ -269,7 +273,7 @@ export class ItemUpdated__Params {
     return this._event.parameters[2].value.toString();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[3].value.toAddress();
   }
 }
@@ -381,29 +385,29 @@ export class ThirdPartyAdded__Params {
     return this._event.parameters[5].value.toBigInt();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[6].value.toAddress();
   }
 }
 
-export class ThirdPartyAgregatorSet extends ethereum.Event {
-  get params(): ThirdPartyAgregatorSet__Params {
-    return new ThirdPartyAgregatorSet__Params(this);
+export class ThirdPartyAggregatorSet extends ethereum.Event {
+  get params(): ThirdPartyAggregatorSet__Params {
+    return new ThirdPartyAggregatorSet__Params(this);
   }
 }
 
-export class ThirdPartyAgregatorSet__Params {
-  _event: ThirdPartyAgregatorSet;
+export class ThirdPartyAggregatorSet__Params {
+  _event: ThirdPartyAggregatorSet;
 
-  constructor(event: ThirdPartyAgregatorSet) {
+  constructor(event: ThirdPartyAggregatorSet) {
     this._event = event;
   }
 
-  get _oldThirdPartyAgregator(): Address {
+  get _oldThirdPartyAggregator(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get _newThirdPartyAgregator(): Address {
+  get _newThirdPartyAggregator(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 }
@@ -433,7 +437,7 @@ export class ThirdPartyItemSlotsBought__Params {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[3].value.toAddress();
   }
 }
@@ -459,7 +463,7 @@ export class ThirdPartyReviewed__Params {
     return this._event.parameters[1].value.toBoolean();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[2].value.toAddress();
   }
 }
@@ -561,7 +565,7 @@ export class ThirdPartyUpdated__Params {
     return this._event.parameters[5].value.toBigInt();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[6].value.toAddress();
   }
 }
@@ -1056,20 +1060,20 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  thirdPartyAgregator(): Address {
+  thirdPartyAggregator(): Address {
     let result = super.call(
-      "thirdPartyAgregator",
-      "thirdPartyAgregator():(address)",
+      "thirdPartyAggregator",
+      "thirdPartyAggregator():(address)",
       []
     );
 
     return result[0].toAddress();
   }
 
-  try_thirdPartyAgregator(): ethereum.CallResult<Address> {
+  try_thirdPartyAggregator(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "thirdPartyAgregator",
-      "thirdPartyAgregator():(address)",
+      "thirdPartyAggregator",
+      "thirdPartyAggregator():(address)",
       []
     );
     if (result.reverted) {
@@ -1100,60 +1104,6 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
-  }
-}
-
-export class ConstructorCall extends ethereum.Call {
-  get inputs(): ConstructorCall__Inputs {
-    return new ConstructorCall__Inputs(this);
-  }
-
-  get outputs(): ConstructorCall__Outputs {
-    return new ConstructorCall__Outputs(this);
-  }
-}
-
-export class ConstructorCall__Inputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-
-  get _owner(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _thirdPartyAgregator(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get _feesCollector(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-
-  get _committee(): Address {
-    return this._call.inputValues[3].value.toAddress();
-  }
-
-  get _acceptedToken(): Address {
-    return this._call.inputValues[4].value.toAddress();
-  }
-
-  get _oracle(): Address {
-    return this._call.inputValues[5].value.toAddress();
-  }
-
-  get _itemSlotPrice(): BigInt {
-    return this._call.inputValues[6].value.toBigInt();
-  }
-}
-
-export class ConstructorCall__Outputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
   }
 }
 
@@ -1404,6 +1354,60 @@ export class ExecuteMetaTransactionCall__Outputs {
 
   get value0(): Bytes {
     return this._call.outputValues[0].value.toBytes();
+  }
+}
+
+export class InitializeCall extends ethereum.Call {
+  get inputs(): InitializeCall__Inputs {
+    return new InitializeCall__Inputs(this);
+  }
+
+  get outputs(): InitializeCall__Outputs {
+    return new InitializeCall__Outputs(this);
+  }
+}
+
+export class InitializeCall__Inputs {
+  _call: InitializeCall;
+
+  constructor(call: InitializeCall) {
+    this._call = call;
+  }
+
+  get _owner(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _thirdPartyAggregator(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _feesCollector(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+
+  get _committee(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get _acceptedToken(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+
+  get _oracle(): Address {
+    return this._call.inputValues[5].value.toAddress();
+  }
+
+  get _itemSlotPrice(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
+  }
+}
+
+export class InitializeCall__Outputs {
+  _call: InitializeCall;
+
+  constructor(call: InitializeCall) {
+    this._call = call;
   }
 }
 
@@ -1811,32 +1815,32 @@ export class SetRulesCall__Outputs {
   }
 }
 
-export class SetThirdPartyAgregatorCall extends ethereum.Call {
-  get inputs(): SetThirdPartyAgregatorCall__Inputs {
-    return new SetThirdPartyAgregatorCall__Inputs(this);
+export class SetThirdPartyAggregatorCall extends ethereum.Call {
+  get inputs(): SetThirdPartyAggregatorCall__Inputs {
+    return new SetThirdPartyAggregatorCall__Inputs(this);
   }
 
-  get outputs(): SetThirdPartyAgregatorCall__Outputs {
-    return new SetThirdPartyAgregatorCall__Outputs(this);
+  get outputs(): SetThirdPartyAggregatorCall__Outputs {
+    return new SetThirdPartyAggregatorCall__Outputs(this);
   }
 }
 
-export class SetThirdPartyAgregatorCall__Inputs {
-  _call: SetThirdPartyAgregatorCall;
+export class SetThirdPartyAggregatorCall__Inputs {
+  _call: SetThirdPartyAggregatorCall;
 
-  constructor(call: SetThirdPartyAgregatorCall) {
+  constructor(call: SetThirdPartyAggregatorCall) {
     this._call = call;
   }
 
-  get _newThirdPartyAgregator(): Address {
+  get _newThirdPartyAggregator(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class SetThirdPartyAgregatorCall__Outputs {
-  _call: SetThirdPartyAgregatorCall;
+export class SetThirdPartyAggregatorCall__Outputs {
+  _call: SetThirdPartyAggregatorCall;
 
-  constructor(call: SetThirdPartyAgregatorCall) {
+  constructor(call: SetThirdPartyAggregatorCall) {
     this._call = call;
   }
 }

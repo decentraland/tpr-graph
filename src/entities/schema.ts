@@ -274,6 +274,7 @@ export class Receipt extends Entity {
     this.set("curation", Value.fromString(""));
     this.set("qty", Value.fromBigInt(BigInt.zero()));
     this.set("signer", Value.fromString(""));
+    this.set("createdAt", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -336,6 +337,15 @@ export class Receipt extends Entity {
 
   set signer(value: string) {
     this.set("signer", Value.fromString(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value!.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
   }
 }
 
