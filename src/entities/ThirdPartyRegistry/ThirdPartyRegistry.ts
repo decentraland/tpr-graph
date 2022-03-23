@@ -709,33 +709,6 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  foo(_thirdPartyId: string, _qty: BigInt, _salt: Bytes): Bytes {
-    let result = super.call("foo", "foo(string,uint256,bytes32):(bytes32)", [
-      ethereum.Value.fromString(_thirdPartyId),
-      ethereum.Value.fromUnsignedBigInt(_qty),
-      ethereum.Value.fromFixedBytes(_salt)
-    ]);
-
-    return result[0].toBytes();
-  }
-
-  try_foo(
-    _thirdPartyId: string,
-    _qty: BigInt,
-    _salt: Bytes
-  ): ethereum.CallResult<Bytes> {
-    let result = super.tryCall("foo", "foo(string,uint256,bytes32):(bytes32)", [
-      ethereum.Value.fromString(_thirdPartyId),
-      ethereum.Value.fromUnsignedBigInt(_qty),
-      ethereum.Value.fromFixedBytes(_salt)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
-  }
-
   getChainId(): BigInt {
     let result = super.call("getChainId", "getChainId():(uint256)", []);
 
