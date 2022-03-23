@@ -43,5 +43,5 @@ dataSources:
           handler: handleItemUpdated
         - event: ItemReviewed(string,string,string,string,bool,address)
           handler: handleItemReviewed
-        - event: ItemSlotsConsumed(string,uint256,indexed address,indexed address,bytes32)
+        - event: ItemSlotsConsumed(string,uint256,indexed address,bytes32,indexed address)
           handler: handleItemSlotsConsumed

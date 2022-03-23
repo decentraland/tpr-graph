@@ -149,7 +149,7 @@ export class ItemAdded__Params {
     return this._event.parameters[3].value.toBoolean();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[4].value.toAddress();
   }
 }
@@ -187,7 +187,7 @@ export class ItemReviewed__Params {
     return this._event.parameters[4].value.toBoolean();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[5].value.toAddress();
   }
 }
@@ -239,12 +239,12 @@ export class ItemSlotsConsumed__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
-  get _sender(): Address {
-    return this._event.parameters[3].value.toAddress();
+  get _messageHash(): Bytes {
+    return this._event.parameters[3].value.toBytes();
   }
 
-  get _messageHash(): Bytes {
-    return this._event.parameters[4].value.toBytes();
+  get _sender(): Address {
+    return this._event.parameters[4].value.toAddress();
   }
 }
 
@@ -273,7 +273,7 @@ export class ItemUpdated__Params {
     return this._event.parameters[2].value.toString();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[3].value.toAddress();
   }
 }
@@ -385,7 +385,7 @@ export class ThirdPartyAdded__Params {
     return this._event.parameters[5].value.toBigInt();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[6].value.toAddress();
   }
 }
@@ -437,7 +437,7 @@ export class ThirdPartyItemSlotsBought__Params {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[3].value.toAddress();
   }
 }
@@ -463,7 +463,7 @@ export class ThirdPartyReviewed__Params {
     return this._event.parameters[1].value.toBoolean();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[2].value.toAddress();
   }
 }
@@ -565,7 +565,7 @@ export class ThirdPartyUpdated__Params {
     return this._event.parameters[5].value.toBigInt();
   }
 
-  get _caller(): Address {
+  get _sender(): Address {
     return this._event.parameters[6].value.toAddress();
   }
 }
