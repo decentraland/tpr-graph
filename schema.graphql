@@ -29,6 +29,7 @@ type Receipt @entity {
   curation: Curation!
   qty: BigInt!
   signer: String!
+  createdAt: BigInt!
 }
 
 type Item @entity {

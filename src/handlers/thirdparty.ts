@@ -294,12 +294,13 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
   const metric = buildCountFromReceipt()
   metric.save()
 
-  const receipt = new Receipt(metric.receiptTotal.toString())
+  const receipt = new Receipt(event.params._messageHash.toHexString())
 
   receipt.qty = qty
   receipt.thirdParty = thirdPartyId
   receipt.curation = curation.id
   receipt.signer = event.params._signer.toHexString()
+  receipt.createdAt = event.block.timestamp
 
   receipt.save()
 }
