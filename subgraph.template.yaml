@@ -11,10 +11,10 @@ dataSources:
   # Third Party Registry --------------------------------------
   # ---------------------------------------------------------
   - kind: ethereum/contract
-    name: ThirdPartyRegistry
+    name: ThirdPartyRegistryV2
     network: {{network}}
     source:
-      abi: ThirdPartyRegistry
+      abi: ThirdPartyRegistryV2
       startBlock: {{startBlock_tpr}}
       address: '{{address_tpr}}'
     mapping:
@@ -26,8 +26,8 @@ dataSources:
         - ThirdParty
         - Item
       abis:
-        - name: ThirdPartyRegistry
-          file: ./abis/ThirdPartyRegistry.json
+        - name: ThirdPartyRegistryV2
+          file: ./abis/ThirdPartyRegistryV2.json
       eventHandlers:
         - event: ThirdPartyAdded(string,string,string,bool,address[],uint256,address)
           handler: handleThirdPartyAdded
@@ -37,10 +37,6 @@ dataSources:
           handler: handleThirdPartyItemSlotsBought
         - event: ThirdPartyReviewedWithRoot(string,bytes32,bool,address)
           handler: handleThirdPartyReviewedWithRoot
-        - event: ItemAdded(string,string,string,bool,address)
-          handler: handleItemAdded
-        - event: ItemUpdated(string,string,string,address)
-          handler: handleItemUpdated
         - event: ItemReviewed(string,string,string,string,bool,address)
           handler: handleItemReviewed
         - event: ItemSlotsConsumed(string,uint256,indexed address,bytes32,indexed address)
