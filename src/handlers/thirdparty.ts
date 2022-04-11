@@ -29,7 +29,6 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
   thirdParty.maxItems = event.params._itemSlots
-  thirdParty.totalItems = BigInt.fromI32(0)
   thirdParty.isApproved = event.params._isApproved
 
   let managers = new Array<string>()

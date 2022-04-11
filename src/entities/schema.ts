@@ -22,7 +22,6 @@ export class ThirdParty extends Entity {
     this.set("resolver", Value.fromString(""));
     this.set("isApproved", Value.fromBoolean(false));
     this.set("maxItems", Value.fromBigInt(BigInt.zero()));
-    this.set("totalItems", Value.fromBigInt(BigInt.zero()));
     this.set("metadata", Value.fromString(""));
     this.set("root", Value.fromString(""));
     this.set("consumedSlots", Value.fromBigInt(BigInt.zero()));
@@ -97,15 +96,6 @@ export class ThirdParty extends Entity {
 
   set maxItems(value: BigInt) {
     this.set("maxItems", Value.fromBigInt(value));
-  }
-
-  get totalItems(): BigInt {
-    let value = this.get("totalItems");
-    return value!.toBigInt();
-  }
-
-  set totalItems(value: BigInt) {
-    this.set("totalItems", Value.fromBigInt(value));
   }
 
   get metadata(): string {

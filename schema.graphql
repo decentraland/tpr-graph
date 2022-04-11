@@ -5,7 +5,6 @@ type ThirdParty @entity {
   resolver: String!
   isApproved: Boolean
   maxItems: BigInt!
-  totalItems: BigInt!
   metadata: Metadata!
   root: String!
   consumedSlots: BigInt!
