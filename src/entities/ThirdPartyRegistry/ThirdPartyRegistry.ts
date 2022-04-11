@@ -120,40 +120,6 @@ export class InitialThirdPartyValueSet__Params {
   }
 }
 
-export class ItemAdded extends ethereum.Event {
-  get params(): ItemAdded__Params {
-    return new ItemAdded__Params(this);
-  }
-}
-
-export class ItemAdded__Params {
-  _event: ItemAdded;
-
-  constructor(event: ItemAdded) {
-    this._event = event;
-  }
-
-  get _thirdPartyId(): string {
-    return this._event.parameters[0].value.toString();
-  }
-
-  get _itemId(): string {
-    return this._event.parameters[1].value.toString();
-  }
-
-  get _metadata(): string {
-    return this._event.parameters[2].value.toString();
-  }
-
-  get _value(): boolean {
-    return this._event.parameters[3].value.toBoolean();
-  }
-
-  get _sender(): Address {
-    return this._event.parameters[4].value.toAddress();
-  }
-}
-
 export class ItemReviewed extends ethereum.Event {
   get params(): ItemReviewed__Params {
     return new ItemReviewed__Params(this);
@@ -245,36 +211,6 @@ export class ItemSlotsConsumed__Params {
 
   get _sender(): Address {
     return this._event.parameters[4].value.toAddress();
-  }
-}
-
-export class ItemUpdated extends ethereum.Event {
-  get params(): ItemUpdated__Params {
-    return new ItemUpdated__Params(this);
-  }
-}
-
-export class ItemUpdated__Params {
-  _event: ItemUpdated;
-
-  constructor(event: ItemUpdated) {
-    this._event = event;
-  }
-
-  get _thirdPartyId(): string {
-    return this._event.parameters[0].value.toString();
-  }
-
-  get _itemId(): string {
-    return this._event.parameters[1].value.toString();
-  }
-
-  get _metadata(): string {
-    return this._event.parameters[2].value.toString();
-  }
-
-  get _sender(): Address {
-    return this._event.parameters[3].value.toAddress();
   }
 }
 
@@ -1107,52 +1043,6 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
   }
 }
 
-export class AddItemsCall extends ethereum.Call {
-  get inputs(): AddItemsCall__Inputs {
-    return new AddItemsCall__Inputs(this);
-  }
-
-  get outputs(): AddItemsCall__Outputs {
-    return new AddItemsCall__Outputs(this);
-  }
-}
-
-export class AddItemsCall__Inputs {
-  _call: AddItemsCall;
-
-  constructor(call: AddItemsCall) {
-    this._call = call;
-  }
-
-  get _thirdPartyId(): string {
-    return this._call.inputValues[0].value.toString();
-  }
-
-  get _items(): Array<AddItemsCall_itemsStruct> {
-    return this._call.inputValues[1].value.toTupleArray<
-      AddItemsCall_itemsStruct
-    >();
-  }
-}
-
-export class AddItemsCall__Outputs {
-  _call: AddItemsCall;
-
-  constructor(call: AddItemsCall) {
-    this._call = call;
-  }
-}
-
-export class AddItemsCall_itemsStruct extends ethereum.Tuple {
-  get id(): string {
-    return this[0].toString();
-  }
-
-  get metadata(): string {
-    return this[1].toString();
-  }
-}
-
 export class AddThirdPartiesCall extends ethereum.Call {
   get inputs(): AddThirdPartiesCall__Inputs {
     return new AddThirdPartiesCall__Inputs(this);
@@ -1872,52 +1762,6 @@ export class TransferOwnershipCall__Outputs {
 
   constructor(call: TransferOwnershipCall) {
     this._call = call;
-  }
-}
-
-export class UpdateItemsCall extends ethereum.Call {
-  get inputs(): UpdateItemsCall__Inputs {
-    return new UpdateItemsCall__Inputs(this);
-  }
-
-  get outputs(): UpdateItemsCall__Outputs {
-    return new UpdateItemsCall__Outputs(this);
-  }
-}
-
-export class UpdateItemsCall__Inputs {
-  _call: UpdateItemsCall;
-
-  constructor(call: UpdateItemsCall) {
-    this._call = call;
-  }
-
-  get _thirdPartyId(): string {
-    return this._call.inputValues[0].value.toString();
-  }
-
-  get _items(): Array<UpdateItemsCall_itemsStruct> {
-    return this._call.inputValues[1].value.toTupleArray<
-      UpdateItemsCall_itemsStruct
-    >();
-  }
-}
-
-export class UpdateItemsCall__Outputs {
-  _call: UpdateItemsCall;
-
-  constructor(call: UpdateItemsCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateItemsCall_itemsStruct extends ethereum.Tuple {
-  get id(): string {
-    return this[0].toString();
-  }
-
-  get metadata(): string {
-    return this[1].toString();
   }
 }
 
