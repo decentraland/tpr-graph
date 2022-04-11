@@ -1,6 +1,6 @@
 # Decentraland TPR graph
 
-- Matic: https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet (QmeVYsvsXztQRaR3GKQsKYLQYmYY7LWT3Yt5ouZABJSJv1)
+- Matic: https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet (QmVNjuMGKwqxXAQ3qfuigrRhM3UVSEbcbDzSTJsihTi279)
 - Mumbai: https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mumbai (QmSXYRaYd6Tmufanyw7URhLST3x7VAJ9rPaCHx2Lmgvb4f)
 
 ### Install
