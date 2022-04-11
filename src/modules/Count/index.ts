@@ -9,7 +9,6 @@ export function buildCount(): Count {
   if (count == null) {
     count = new Count(DEFAULT_ID)
     count.thirdPartyTotal = BigInt.fromI32(0)
-    count.itemTotal = BigInt.fromI32(0)
     count.curationTotal = BigInt.fromI32(0)
     count.receiptTotal = BigInt.fromI32(0)
   }
@@ -21,14 +20,6 @@ export function buildCountFromThirdParty(): Count {
   let count = buildCount()
 
   count.thirdPartyTotal = count.thirdPartyTotal.plus(BigInt.fromI32(1))
-
-  return count
-}
-
-export function buildCountFromItem(): Count {
-  let count = buildCount()
-
-  count.itemTotal = count.itemTotal.plus(BigInt.fromI32(1))
 
   return count
 }

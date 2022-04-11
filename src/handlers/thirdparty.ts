@@ -1,7 +1,6 @@
 import { BigInt, Address, log } from '@graphprotocol/graph-ts'
-import { Curation, Item, Receipt, ThirdParty } from '../entities/schema'
+import { Curation, Receipt, ThirdParty } from '../entities/schema'
 import {
-  ItemReviewed,
   ItemSlotsConsumed,
   ThirdPartyAdded,
   ThirdPartyItemSlotsBought,
@@ -14,7 +13,6 @@ import {
   buildCountFromThirdParty
 } from '../modules/Count'
 import { isURNValid } from '../modules/ThirdParty'
-import { buildItemId, isBlockchainIdValid } from '../modules/Item'
 import { buildMetadata } from '../modules/Metadata'
 import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
 
@@ -144,38 +142,6 @@ export function handleThirdPartyReviewedWithRoot(
   thirdParty.root = event.params._root.toHexString()
 
   thirdParty.save()
-}
-
-export function handleItemReviewed(event: ItemReviewed): void {
-  if (!isBlockchainIdValid(event.params._itemId)) {
-    log.error(
-      'An item was reviewed in the TPR "{}" with an incorrect id "{}"',
-      [event.params._thirdPartyId, event.params._itemId]
-    )
-    return
-  }
-
-  let itemId = buildItemId(event.params._thirdPartyId, event.params._itemId)
-
-  let item = Item.load(itemId)
-  if (item == null) {
-    log.error(
-      'Tried to review inexistent item with id "{}" for TPR with id "{}"',
-      [event.params._itemId, event.params._thirdPartyId]
-    )
-    return
-  }
-
-  item.isApproved = event.params._value
-  item.contentHash = event.params._contentHash
-  item.rawMetadata = event.params._metadata
-  item.updatedAt = event.block.timestamp
-  item.reviewedAt = event.block.timestamp
-
-  let metadata = buildMetadata(item.id, item.rawMetadata)
-  item.metadata = metadata.id
-
-  item.save()
 }
 
 export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
