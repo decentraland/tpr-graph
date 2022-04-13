@@ -4,6 +4,7 @@ import {
   ItemSlotsConsumed,
   ThirdPartyAdded,
   ThirdPartyItemSlotsBought,
+  ThirdPartyReviewed,
   ThirdPartyReviewedWithRoot,
   ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
@@ -29,7 +30,7 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
   thirdParty.maxItems = event.params._itemSlots
-  thirdParty.isApproved = event.params._isApproved
+  thirdParty.isApproved = false
 
   let managers = new Array<string>()
   let eventManagers = event.params._managers
@@ -139,6 +140,18 @@ export function handleThirdPartyReviewedWithRoot(
   }
 
   thirdParty.root = event.params._root.toHexString()
+  thirdParty.isApproved = true
+
+  thirdParty.save()
+}
+
+export function handleThirdPartyReviewed(event: ThirdPartyReviewed): void {
+  const thirdPartyId = event.params._thirdPartyId
+  const isApproved = event.params._value
+
+  const thirdParty = ThirdParty.load(thirdPartyId)
+
+  thirdParty.isApproved = isApproved && !!thirdParty.root
 
   thirdParty.save()
 }

@@ -37,5 +37,7 @@ dataSources:
           handler: handleThirdPartyItemSlotsBought
         - event: ThirdPartyReviewedWithRoot(string,bytes32,bool,address)
           handler: handleThirdPartyReviewedWithRoot
+        - event: ThirdPartyReviewed(string,bool,address)
+          handler: handleThirdPartyReviewed
         - event: ItemSlotsConsumed(string,uint256,indexed address,bytes32,indexed address)
           handler: handleItemSlotsConsumed
