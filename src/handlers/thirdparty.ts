@@ -154,6 +154,14 @@ export function handleThirdPartyReviewed(event: ThirdPartyReviewed): void {
 
   const thirdParty = ThirdParty.load(thirdPartyId)
 
+  if (thirdParty == null) {
+    log.error(
+      'Attempted to review an unregistered third party with id {}',
+      [thirdPartyId]
+    )
+    return
+  }
+
   thirdParty.isApproved = isApproved && !!thirdParty.root
 
   thirdParty.save()
