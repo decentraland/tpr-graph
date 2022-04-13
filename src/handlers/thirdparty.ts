@@ -25,12 +25,14 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
     return
   }
 
+  const isApproved = event.params._isApproved
+
   let thirdParty = new ThirdParty(event.params._thirdPartyId)
 
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
   thirdParty.maxItems = event.params._itemSlots
-  thirdParty.isApproved = false
+  thirdParty.isApproved = isApproved && !!thirdParty.root
 
   let managers = new Array<string>()
   let eventManagers = event.params._managers
@@ -128,6 +130,7 @@ export function handleThirdPartyReviewedWithRoot(
   event: ThirdPartyReviewedWithRoot
 ): void {
   const thirdPartyId = event.params._thirdPartyId
+  const isApproved = event.params._isApproved
 
   const thirdParty = ThirdParty.load(thirdPartyId)
 
@@ -140,7 +143,7 @@ export function handleThirdPartyReviewedWithRoot(
   }
 
   thirdParty.root = event.params._root.toHexString()
-  thirdParty.isApproved = true
+  thirdParty.isApproved = isApproved && !!thirdParty.root
 
   thirdParty.save()
 }
