@@ -1,7 +1,12 @@
 # Decentraland TPR graph
 
-- Matic: https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet (QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b)
-- Mumbai: https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mumbai (QmTJR2JMzxvTfUgXaGSPdEcsnb2R5sTUyKS5DuZEMhvMoq)
+|Network|URL|Current|Previous|
+|-|-|-|-|
+|Matic (Hosted Services)|https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet |QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b|-|
+|Matic (Satsuma)|https://subgraph.satsuma-prod.com/decentraland/tpr-matic-mainnet/playground|QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b|-|
+|Mumbai (Hosted Service)|https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mumbai|QmTJR2JMzxvTfUgXaGSPdEcsnb2R5sTUyKS5DuZEMhvMoq|-|
+
+Using [The Graph](https://thegraph.com) and [Satsuma](https://www.satsuma.xyz/)
 
 ### Install
 
