@@ -2,23 +2,20 @@
   "name": "decentraland_tpr_graph",
   "version": "0.1.0",
   "scripts": {
-    "codegen": "graph codegen --debug --output-dir src/entities/",
+    "codegen": "graph codegen --output-dir src/entities/",
     "prepare:mumbai": "mustache config/mumbai.json subgraph.template.yaml > subgraph.yaml && npm run codegen",
     "prepare:matic": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml && npm run codegen",
+    "prepare:amoy": "mustache config/amoy.json subgraph.template.yaml > subgraph.yaml && npm run codegen",
     "deploy:mumbai": "npm run prepare:mumbai && npx graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ decentraland/tpr-matic-mumbai",
-    "deploy:matic": "npm run prepare:matic && npx graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ decentraland/tpr-matic-mainnet"
+    "deploy:matic": "npm run prepare:matic && npx graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ decentraland/tpr-matic-mainnet",
+    "deploy:amoy": "npm run prepare:amoy && npx graph deploy --studio decentraland/tpr-matic-amoy"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.22.4",
-    "@graphprotocol/graph-ts": "^0.22.1",
-    "mustache": "^4.0.1",
-    "prettier": "2.4.1",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.4"
+    "prettier": "2.4.1"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "babel-register": "^6.26.0",
-    "tslint-plugin-prettier": "^2.0.1"
+    "@graphprotocol/graph-cli": "^0.70.0",
+    "@graphprotocol/graph-ts": "^0.35.0",
+    "mustache": "^4.0.1"
   }
 }
