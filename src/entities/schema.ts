@@ -6,25 +6,15 @@ import {
   Value,
   ValueKind,
   store,
-  Address,
   Bytes,
   BigInt,
-  BigDecimal
+  BigDecimal,
 } from "@graphprotocol/graph-ts";
 
 export class ThirdParty extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("managers", Value.fromStringArray(new Array(0)));
-    this.set("rawMetadata", Value.fromString(""));
-    this.set("resolver", Value.fromString(""));
-    this.set("isApproved", Value.fromBoolean(false));
-    this.set("maxItems", Value.fromBigInt(BigInt.zero()));
-    this.set("metadata", Value.fromString(""));
-    this.set("root", Value.fromString(""));
-    this.set("consumedSlots", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -33,11 +23,14 @@ export class ThirdParty extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save ThirdParty entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type ThirdParty must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("ThirdParty", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): ThirdParty | null {
+    return changetype<ThirdParty | null>(store.get_in_block("ThirdParty", id));
   }
 
   static load(id: string): ThirdParty | null {
@@ -46,7 +39,11 @@ export class ThirdParty extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -55,7 +52,11 @@ export class ThirdParty extends Entity {
 
   get managers(): Array<string> {
     let value = this.get("managers");
-    return value!.toStringArray();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
   }
 
   set managers(value: Array<string>) {
@@ -64,7 +65,11 @@ export class ThirdParty extends Entity {
 
   get rawMetadata(): string {
     let value = this.get("rawMetadata");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set rawMetadata(value: string) {
@@ -73,7 +78,11 @@ export class ThirdParty extends Entity {
 
   get resolver(): string {
     let value = this.get("resolver");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set resolver(value: string) {
@@ -82,7 +91,11 @@ export class ThirdParty extends Entity {
 
   get isApproved(): boolean {
     let value = this.get("isApproved");
-    return value!.toBoolean();
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
   }
 
   set isApproved(value: boolean) {
@@ -91,7 +104,11 @@ export class ThirdParty extends Entity {
 
   get maxItems(): BigInt {
     let value = this.get("maxItems");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set maxItems(value: BigInt) {
@@ -100,7 +117,11 @@ export class ThirdParty extends Entity {
 
   get metadata(): string {
     let value = this.get("metadata");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set metadata(value: string) {
@@ -109,7 +130,11 @@ export class ThirdParty extends Entity {
 
   get root(): string {
     let value = this.get("root");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set root(value: string) {
@@ -118,7 +143,11 @@ export class ThirdParty extends Entity {
 
   get consumedSlots(): BigInt {
     let value = this.get("consumedSlots");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set consumedSlots(value: BigInt) {
@@ -181,8 +210,6 @@ export class Curation extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("qty", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -191,11 +218,14 @@ export class Curation extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Curation entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Curation must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Curation", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): Curation | null {
+    return changetype<Curation | null>(store.get_in_block("Curation", id));
   }
 
   static load(id: string): Curation | null {
@@ -204,7 +234,11 @@ export class Curation extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -213,28 +247,23 @@ export class Curation extends Entity {
 
   get qty(): BigInt {
     let value = this.get("qty");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set qty(value: BigInt) {
     this.set("qty", Value.fromBigInt(value));
   }
 
-  get receipts(): Array<string> | null {
-    let value = this.get("receipts");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set receipts(value: Array<string> | null) {
-    if (!value) {
-      this.unset("receipts");
-    } else {
-      this.set("receipts", Value.fromStringArray(<Array<string>>value));
-    }
+  get receipts(): ReceiptLoader {
+    return new ReceiptLoader(
+      "Curation",
+      this.get("id")!.toString(),
+      "receipts",
+    );
   }
 }
 
@@ -242,12 +271,6 @@ export class Receipt extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("thirdParty", Value.fromString(""));
-    this.set("curation", Value.fromString(""));
-    this.set("qty", Value.fromBigInt(BigInt.zero()));
-    this.set("signer", Value.fromString(""));
-    this.set("createdAt", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -256,11 +279,14 @@ export class Receipt extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Receipt entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Receipt must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Receipt", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): Receipt | null {
+    return changetype<Receipt | null>(store.get_in_block("Receipt", id));
   }
 
   static load(id: string): Receipt | null {
@@ -269,7 +295,11 @@ export class Receipt extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -278,7 +308,11 @@ export class Receipt extends Entity {
 
   get thirdParty(): string {
     let value = this.get("thirdParty");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set thirdParty(value: string) {
@@ -287,7 +321,11 @@ export class Receipt extends Entity {
 
   get curation(): string {
     let value = this.get("curation");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set curation(value: string) {
@@ -296,7 +334,11 @@ export class Receipt extends Entity {
 
   get qty(): BigInt {
     let value = this.get("qty");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set qty(value: BigInt) {
@@ -305,7 +347,11 @@ export class Receipt extends Entity {
 
   get signer(): string {
     let value = this.get("signer");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set signer(value: string) {
@@ -314,7 +360,11 @@ export class Receipt extends Entity {
 
   get createdAt(): BigInt {
     let value = this.get("createdAt");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set createdAt(value: BigInt) {
@@ -326,8 +376,6 @@ export class Metadata extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("type", Value.fromString(""));
   }
 
   save(): void {
@@ -336,11 +384,14 @@ export class Metadata extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Metadata entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Metadata must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Metadata", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): Metadata | null {
+    return changetype<Metadata | null>(store.get_in_block("Metadata", id));
   }
 
   static load(id: string): Metadata | null {
@@ -349,7 +400,11 @@ export class Metadata extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -358,7 +413,11 @@ export class Metadata extends Entity {
 
   get type(): string {
     let value = this.get("type");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set type(value: string) {
@@ -387,9 +446,6 @@ export class ThirdPartyMetadata extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("name", Value.fromString(""));
-    this.set("description", Value.fromString(""));
   }
 
   save(): void {
@@ -398,22 +454,31 @@ export class ThirdPartyMetadata extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save ThirdPartyMetadata entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type ThirdPartyMetadata must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("ThirdPartyMetadata", id.toString(), this);
     }
   }
 
+  static loadInBlock(id: string): ThirdPartyMetadata | null {
+    return changetype<ThirdPartyMetadata | null>(
+      store.get_in_block("ThirdPartyMetadata", id),
+    );
+  }
+
   static load(id: string): ThirdPartyMetadata | null {
     return changetype<ThirdPartyMetadata | null>(
-      store.get("ThirdPartyMetadata", id)
+      store.get("ThirdPartyMetadata", id),
     );
   }
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -422,7 +487,11 @@ export class ThirdPartyMetadata extends Entity {
 
   get name(): string {
     let value = this.get("name");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set name(value: string) {
@@ -431,7 +500,11 @@ export class ThirdPartyMetadata extends Entity {
 
   get description(): string {
     let value = this.get("description");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set description(value: string) {
@@ -443,10 +516,6 @@ export class Count extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("thirdPartyTotal", Value.fromBigInt(BigInt.zero()));
-    this.set("receiptTotal", Value.fromBigInt(BigInt.zero()));
-    this.set("curationTotal", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -455,11 +524,14 @@ export class Count extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Count entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Count must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Count", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): Count | null {
+    return changetype<Count | null>(store.get_in_block("Count", id));
   }
 
   static load(id: string): Count | null {
@@ -468,7 +540,11 @@ export class Count extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -477,7 +553,11 @@ export class Count extends Entity {
 
   get thirdPartyTotal(): BigInt {
     let value = this.get("thirdPartyTotal");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set thirdPartyTotal(value: BigInt) {
@@ -486,7 +566,11 @@ export class Count extends Entity {
 
   get receiptTotal(): BigInt {
     let value = this.get("receiptTotal");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set receiptTotal(value: BigInt) {
@@ -495,10 +579,32 @@ export class Count extends Entity {
 
   get curationTotal(): BigInt {
     let value = this.get("curationTotal");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set curationTotal(value: BigInt) {
     this.set("curationTotal", Value.fromBigInt(value));
+  }
+}
+
+export class ReceiptLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): Receipt[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<Receipt[]>(value);
   }
 }

@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class AcceptedTokenSet extends ethereum.Event {
@@ -540,7 +540,7 @@ export class ThirdPartyRegistry__thirdPartiesResult {
     value3: BigInt,
     value4: BigInt,
     value5: string,
-    value6: string
+    value6: string,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -562,6 +562,34 @@ export class ThirdPartyRegistry__thirdPartiesResult {
     map.set("value6", ethereum.Value.fromString(this.value6));
     return map;
   }
+
+  getIsApproved(): boolean {
+    return this.value0;
+  }
+
+  getRoot(): Bytes {
+    return this.value1;
+  }
+
+  getMaxItems(): BigInt {
+    return this.value2;
+  }
+
+  getConsumedSlots(): BigInt {
+    return this.value3;
+  }
+
+  getRegistered(): BigInt {
+    return this.value4;
+  }
+
+  getMetadata(): string {
+    return this.value5;
+  }
+
+  getResolver(): string {
+    return this.value6;
+  }
 }
 
 export class ThirdPartyRegistry extends ethereum.SmartContract {
@@ -579,7 +607,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "acceptedToken",
       "acceptedToken():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -607,7 +635,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "domainSeparator",
       "domainSeparator():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -617,7 +645,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "domainSeparator",
       "domainSeparator():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -636,7 +664,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "feesCollector",
       "feesCollector():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -662,7 +690,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   getNonce(user: Address): BigInt {
     let result = super.call("getNonce", "getNonce(address):(uint256)", [
-      ethereum.Value.fromAddress(user)
+      ethereum.Value.fromAddress(user),
     ]);
 
     return result[0].toBigInt();
@@ -670,7 +698,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   try_getNonce(user: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("getNonce", "getNonce(address):(uint256)", [
-      ethereum.Value.fromAddress(user)
+      ethereum.Value.fromAddress(user),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -685,8 +713,8 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
       "getRuleValue(string,string):(bool)",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromString(_rule)
-      ]
+        ethereum.Value.fromString(_rule),
+      ],
     );
 
     return result[0].toBoolean();
@@ -694,15 +722,15 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   try_getRuleValue(
     _thirdPartyId: string,
-    _rule: string
+    _rule: string,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "getRuleValue",
       "getRuleValue(string,string):(bool)",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromString(_rule)
-      ]
+        ethereum.Value.fromString(_rule),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -715,7 +743,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "initialItemValue",
       "initialItemValue():(bool)",
-      []
+      [],
     );
 
     return result[0].toBoolean();
@@ -725,7 +753,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "initialItemValue",
       "initialItemValue():(bool)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -738,7 +766,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "initialThirdPartyValue",
       "initialThirdPartyValue():(bool)",
-      []
+      [],
     );
 
     return result[0].toBoolean();
@@ -748,7 +776,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "initialThirdPartyValue",
       "initialThirdPartyValue():(bool)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -763,8 +791,8 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
       "isThirdPartyManager(string,address):(bool)",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromAddress(_manager)
-      ]
+        ethereum.Value.fromAddress(_manager),
+      ],
     );
 
     return result[0].toBoolean();
@@ -772,15 +800,15 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   try_isThirdPartyManager(
     _thirdPartyId: string,
-    _manager: Address
+    _manager: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isThirdPartyManager",
       "isThirdPartyManager(string,address):(bool)",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromAddress(_manager)
-      ]
+        ethereum.Value.fromAddress(_manager),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -795,8 +823,8 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
       "itemIdByIndex(string,uint256):(string)",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromUnsignedBigInt(_index)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_index),
+      ],
     );
 
     return result[0].toString();
@@ -804,15 +832,15 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   try_itemIdByIndex(
     _thirdPartyId: string,
-    _index: BigInt
+    _index: BigInt,
   ): ethereum.CallResult<string> {
     let result = super.tryCall(
       "itemIdByIndex",
       "itemIdByIndex(string,uint256):(string)",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromUnsignedBigInt(_index)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_index),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -831,7 +859,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "itemSlotPrice",
       "itemSlotPrice():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -842,33 +870,33 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   itemsById(
     _thirdPartyId: string,
-    _itemId: string
+    _itemId: string,
   ): ThirdPartyRegistry__itemsByIdResultValue0Struct {
     let result = super.call(
       "itemsById",
       "itemsById(string,string):((string,string,bool,uint256))",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromString(_itemId)
-      ]
+        ethereum.Value.fromString(_itemId),
+      ],
     );
 
     return changetype<ThirdPartyRegistry__itemsByIdResultValue0Struct>(
-      result[0].toTuple()
+      result[0].toTuple(),
     );
   }
 
   try_itemsById(
     _thirdPartyId: string,
-    _itemId: string
+    _itemId: string,
   ): ethereum.CallResult<ThirdPartyRegistry__itemsByIdResultValue0Struct> {
     let result = super.tryCall(
       "itemsById",
       "itemsById(string,string):((string,string,bool,uint256))",
       [
         ethereum.Value.fromString(_thirdPartyId),
-        ethereum.Value.fromString(_itemId)
-      ]
+        ethereum.Value.fromString(_itemId),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -876,14 +904,14 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(
       changetype<ThirdPartyRegistry__itemsByIdResultValue0Struct>(
-        value[0].toTuple()
-      )
+        value[0].toTuple(),
+      ),
     );
   }
 
   itemsCount(_thirdPartyId: string): BigInt {
     let result = super.call("itemsCount", "itemsCount(string):(uint256)", [
-      ethereum.Value.fromString(_thirdPartyId)
+      ethereum.Value.fromString(_thirdPartyId),
     ]);
 
     return result[0].toBigInt();
@@ -891,7 +919,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
 
   try_itemsCount(_thirdPartyId: string): ethereum.CallResult<BigInt> {
     let result = super.tryCall("itemsCount", "itemsCount(string):(uint256)", [
-      ethereum.Value.fromString(_thirdPartyId)
+      ethereum.Value.fromString(_thirdPartyId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -934,7 +962,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "thirdParties",
       "thirdParties(string):(bool,bytes32,uint256,uint256,uint256,string,string)",
-      [ethereum.Value.fromString(param0)]
+      [ethereum.Value.fromString(param0)],
     );
 
     return new ThirdPartyRegistry__thirdPartiesResult(
@@ -944,17 +972,17 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toBigInt(),
       result[5].toString(),
-      result[6].toString()
+      result[6].toString(),
     );
   }
 
   try_thirdParties(
-    param0: string
+    param0: string,
   ): ethereum.CallResult<ThirdPartyRegistry__thirdPartiesResult> {
     let result = super.tryCall(
       "thirdParties",
       "thirdParties(string):(bool,bytes32,uint256,uint256,uint256,string,string)",
-      [ethereum.Value.fromString(param0)]
+      [ethereum.Value.fromString(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -968,8 +996,8 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toBigInt(),
         value[5].toString(),
-        value[6].toString()
-      )
+        value[6].toString(),
+      ),
     );
   }
 
@@ -977,7 +1005,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "thirdPartiesCount",
       "thirdPartiesCount():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -987,7 +1015,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "thirdPartiesCount",
       "thirdPartiesCount():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1000,7 +1028,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "thirdPartyAggregator",
       "thirdPartyAggregator():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -1010,7 +1038,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "thirdPartyAggregator",
       "thirdPartyAggregator():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1023,7 +1051,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.call(
       "thirdPartyIds",
       "thirdPartyIds(uint256):(string)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return result[0].toString();
@@ -1033,7 +1061,7 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     let result = super.tryCall(
       "thirdPartyIds",
       "thirdPartyIds(uint256):(string)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1061,9 +1089,7 @@ export class AddThirdPartiesCall__Inputs {
   }
 
   get _thirdParties(): Array<AddThirdPartiesCall_thirdPartiesStruct> {
-    return this._call.inputValues[0].value.toTupleArray<
-      AddThirdPartiesCall_thirdPartiesStruct
-    >();
+    return this._call.inputValues[0].value.toTupleArray<AddThirdPartiesCall_thirdPartiesStruct>();
   }
 }
 
@@ -1161,9 +1187,7 @@ export class ConsumeSlotsCall__Inputs {
   }
 
   get _consumeSlotsParams(): Array<ConsumeSlotsCall_consumeSlotsParamsStruct> {
-    return this._call.inputValues[1].value.toTupleArray<
-      ConsumeSlotsCall_consumeSlotsParamsStruct
-    >();
+    return this._call.inputValues[1].value.toTupleArray<ConsumeSlotsCall_consumeSlotsParamsStruct>();
   }
 }
 
@@ -1345,9 +1369,7 @@ export class ReviewThirdPartiesCall__Inputs {
   }
 
   get _thirdParties(): Array<ReviewThirdPartiesCall_thirdPartiesStruct> {
-    return this._call.inputValues[0].value.toTupleArray<
-      ReviewThirdPartiesCall_thirdPartiesStruct
-    >();
+    return this._call.inputValues[0].value.toTupleArray<ReviewThirdPartiesCall_thirdPartiesStruct>();
   }
 }
 
@@ -1369,9 +1391,7 @@ export class ReviewThirdPartiesCall_thirdPartiesStruct extends ethereum.Tuple {
   }
 
   get items(): Array<ReviewThirdPartiesCall_thirdPartiesItemsStruct> {
-    return this[2].toTupleArray<
-      ReviewThirdPartiesCall_thirdPartiesItemsStruct
-    >();
+    return this[2].toTupleArray<ReviewThirdPartiesCall_thirdPartiesItemsStruct>();
   }
 }
 
@@ -1418,12 +1438,8 @@ export class ReviewThirdPartyWithRootCall__Inputs {
     return this._call.inputValues[1].value.toBytes();
   }
 
-  get _consumeSlotsParams(): Array<
-    ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct
-  > {
-    return this._call.inputValues[2].value.toTupleArray<
-      ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct
-    >();
+  get _consumeSlotsParams(): Array<ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct> {
+    return this._call.inputValues[2].value.toTupleArray<ReviewThirdPartyWithRootCall_consumeSlotsParamsStruct>();
   }
 }
 
@@ -1783,9 +1799,7 @@ export class UpdateThirdPartiesCall__Inputs {
   }
 
   get _thirdParties(): Array<UpdateThirdPartiesCall_thirdPartiesStruct> {
-    return this._call.inputValues[0].value.toTupleArray<
-      UpdateThirdPartiesCall_thirdPartiesStruct
-    >();
+    return this._call.inputValues[0].value.toTupleArray<UpdateThirdPartiesCall_thirdPartiesStruct>();
   }
 }
 

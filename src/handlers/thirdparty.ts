@@ -29,6 +29,10 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
 
   let thirdParty = new ThirdParty(event.params._thirdPartyId)
 
+  // Set Default values
+  thirdParty.root = ''
+  thirdParty.consumedSlots = BigInt.zero()
+
   thirdParty.resolver = event.params._resolver
   thirdParty.rawMetadata = event.params._metadata
   thirdParty.maxItems = event.params._itemSlots
@@ -155,10 +159,9 @@ export function handleThirdPartyReviewed(event: ThirdPartyReviewed): void {
   const thirdParty = ThirdParty.load(thirdPartyId)
 
   if (thirdParty == null) {
-    log.error(
-      'Attempted to review an unregistered third party with id {}',
-      [thirdPartyId]
-    )
+    log.error('Attempted to review an unregistered third party with id {}', [
+      thirdPartyId
+    ])
     return
   }
 
