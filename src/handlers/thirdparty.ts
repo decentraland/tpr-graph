@@ -197,6 +197,7 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
 
   if (curation == null) {
     curation = new Curation(curatorAddress)
+    curation.qty = BigInt.zero()
     const metric = buildCountFromCuration()
     metric.save()
   }

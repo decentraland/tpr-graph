@@ -2,10 +2,10 @@
 
 |Network|URL|Current|Previous|
 |-|-|-|-|
-|Matic (Satsuma)|https://subgraph.satsuma-prod.com/decentraland/tpr-matic-mainnet/playground|QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b|-|
-|Matic (Hosted Services)|https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet |QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b|-|
-|Mumbai (Hosted Service)|https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mumbai|QmTJR2JMzxvTfUgXaGSPdEcsnb2R5sTUyKS5DuZEMhvMoq|-|
-|Amoy (Satsuma)|https://subgraph.satsuma-prod.com/decentraland/tpr-matic-amoy/playground|QmX3wiM59HWAGiYb88MACKUeQDuN99inaJ8KUHvbgP2XQs|-|
+|Matic (Satsuma)|<https://subgraph.satsuma-prod.com/decentraland/tpr-matic-mainnet/playground>|QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b|-|
+|Matic (Hosted Services)|<https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet> |QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b|-|
+|Mumbai (Hosted Service)|<https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mumbai>|QmTJR2JMzxvTfUgXaGSPdEcsnb2R5sTUyKS5DuZEMhvMoq|-|
+|Amoy (Satsuma)|<https://subgraph.satsuma-prod.com/decentraland/tpr-matic-amoy/playground>|QmU3794DJbRg7Poe9WymQQF9K54vZkQuz1CxTc6QyTpGt8|-|
 
 Using [The Graph](https://thegraph.com) and [Satsuma](https://www.satsuma.xyz/)
 
