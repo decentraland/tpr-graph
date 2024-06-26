@@ -1,8 +1,9 @@
 import { BigInt, Address, log } from '@graphprotocol/graph-ts'
-import { Curation, Receipt, ThirdParty } from '../entities/schema'
+import { Curation, Receipt, RegistryData, ThirdParty } from '../entities/schema'
 import {
   ItemSlotsConsumed,
   ThirdPartyAdded,
+  ThirdPartyAggregatorSet,
   ThirdPartyItemSlotsBought,
   ThirdPartyReviewed,
   ThirdPartyReviewedWithRoot,
@@ -222,4 +223,18 @@ export function handleItemSlotsConsumed(event: ItemSlotsConsumed): void {
   receipt.createdAt = event.block.timestamp
 
   receipt.save()
+}
+
+export function handleThirdPartyAggregatorSet(
+  event: ThirdPartyAggregatorSet
+): void {
+  let registryData = RegistryData.load('1')
+  if (!registryData) {
+    registryData = new RegistryData('1')
+  }
+
+  registryData.aggregatorAddress =
+    event.params._newThirdPartyAggregator.toHexString()
+
+  registryData.save()
 }

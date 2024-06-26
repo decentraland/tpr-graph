@@ -36,15 +36,27 @@ type Metadata @entity {
   thirdParty: ThirdPartyMetadata
 }
 
+type LinkedContracts @entity {
+  id: ID!
+  network: String!
+  address: String!
+}
+
 enum MetadataType @entity {
   undefined
   third_party_v1
+}
+
+type RegistryData @entity {
+  id: ID!
+  aggregatorAddress: String!
 }
 
 type ThirdPartyMetadata @entity {
   id: ID!
   name: String!
   description: String!
+  contracts: [LinkedContracts!]
 }
 
 # thegraph doesn't support count operations, but we need them to paginate results
