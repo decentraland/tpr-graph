@@ -1,5 +1,9 @@
 import { log } from '@graphprotocol/graph-ts'
-import { ThirdParty, ThirdPartyMetadata } from '../../../entities/schema'
+import {
+  LinkedContracts,
+  ThirdParty,
+  ThirdPartyMetadata
+} from '../../../entities/schema'
 import { toLowerCase } from '../../../utils'
 
 /**
@@ -12,26 +16,64 @@ export function buildThirdPartyMetadata(
 ): ThirdPartyMetadata | null {
   let data = rawMetadata.split(':')
 
-  if (data.length == 4) {
-    let thirdPartyMetadata = ThirdPartyMetadata.load(id)
+  if (data.length > 5 || data.length < 4) {
+    log.error(
+      'The third party metadata with id "{}" is not correctly formatted "{}"',
+      [id, rawMetadata]
+    )
 
-    if (thirdPartyMetadata == null) {
-      thirdPartyMetadata = new ThirdPartyMetadata(id)
-    }
-
-    thirdPartyMetadata.name = data[2]
-    thirdPartyMetadata.description = data[3]
-    thirdPartyMetadata.save()
-
-    return thirdPartyMetadata
+    return null
   }
 
-  log.error(
-    'The third party metadata with id "{}" is not correctly formatted "{}"',
-    [id, rawMetadata]
-  )
+  let thirdPartyMetadata = ThirdPartyMetadata.load(id)
 
-  return null
+  if (thirdPartyMetadata == null) {
+    thirdPartyMetadata = new ThirdPartyMetadata(id)
+  }
+
+  thirdPartyMetadata.name = data[2]
+  thirdPartyMetadata.description = data[3]
+
+  if (data.length == 5) {
+    thirdPartyMetadata.contracts = buildThirdPartyLinkedContractsMetadata(
+      data[4]
+    )
+  }
+
+  thirdPartyMetadata.save()
+
+  return thirdPartyMetadata
+}
+
+function buildThirdPartyLinkedContractsMetadata(
+  contractsMetadata: string
+): string[] {
+  let contracts = contractsMetadata.split(';')
+  let linkedContracts: LinkedContracts[] = []
+
+  for (let i = 0; i < contracts.length; i++) {
+    let contract = contracts[i].split('-')
+
+    if (contract.length === 2) {
+      const linkedContractId = contract[0] + '-' + contract[1]
+      let linkedContract = LinkedContracts.load(linkedContractId)
+      if (!linkedContract) {
+        linkedContract = new LinkedContracts(linkedContractId)
+        linkedContract.network = contract[0]
+        linkedContract.address = contract[1]
+        linkedContract.save()
+      }
+
+      linkedContracts.push(linkedContract)
+    } else {
+      log.error(
+        'The linked contract metadata with id "{}" is not correctly formatted "{}"',
+        [contractsMetadata, contracts[i]]
+      )
+    }
+  }
+
+  return linkedContracts.map<string>((contract) => contract.id)
 }
 
 export function setThirdPartySearchFields(thirdParty: ThirdParty): ThirdParty {

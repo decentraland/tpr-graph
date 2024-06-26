@@ -442,6 +442,129 @@ export class Metadata extends Entity {
   }
 }
 
+export class LinkedContracts extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save LinkedContracts entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type LinkedContracts must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("LinkedContracts", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): LinkedContracts | null {
+    return changetype<LinkedContracts | null>(
+      store.get_in_block("LinkedContracts", id),
+    );
+  }
+
+  static load(id: string): LinkedContracts | null {
+    return changetype<LinkedContracts | null>(store.get("LinkedContracts", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get network(): string {
+    let value = this.get("network");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set network(value: string) {
+    this.set("network", Value.fromString(value));
+  }
+
+  get address(): string {
+    let value = this.get("address");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
+  }
+}
+
+export class RegistryData extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save RegistryData entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type RegistryData must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("RegistryData", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): RegistryData | null {
+    return changetype<RegistryData | null>(
+      store.get_in_block("RegistryData", id),
+    );
+  }
+
+  static load(id: string): RegistryData | null {
+    return changetype<RegistryData | null>(store.get("RegistryData", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get aggregatorAddress(): string {
+    let value = this.get("aggregatorAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set aggregatorAddress(value: string) {
+    this.set("aggregatorAddress", Value.fromString(value));
+  }
+}
+
 export class ThirdPartyMetadata extends Entity {
   constructor(id: string) {
     super();
@@ -509,6 +632,23 @@ export class ThirdPartyMetadata extends Entity {
 
   set description(value: string) {
     this.set("description", Value.fromString(value));
+  }
+
+  get contracts(): Array<string> | null {
+    let value = this.get("contracts");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set contracts(value: Array<string> | null) {
+    if (!value) {
+      this.unset("contracts");
+    } else {
+      this.set("contracts", Value.fromStringArray(<Array<string>>value));
+    }
   }
 }
 

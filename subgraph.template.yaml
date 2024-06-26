@@ -41,3 +41,5 @@ dataSources:
           handler: handleThirdPartyReviewed
         - event: ItemSlotsConsumed(string,uint256,indexed address,bytes32,indexed address)
           handler: handleItemSlotsConsumed
+        - event: ThirdPartyAggregatorSet(indexed address,indexed address)
+          handler: handleThirdPartyAggregatorSet
