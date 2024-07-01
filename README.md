@@ -4,6 +4,7 @@
 | ----------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------- | -------- |
 | Matic (Satsuma)         | <https://subgraph.satsuma-prod.com/decentraland/tpr-matic-mainnet/playground> | QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b | -        |
 | Matic (Hosted Services) | <https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mainnet> | QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b | -        |
+| Matic (Graph Studio)    | <https://api.studio.thegraph.com/query/76933/tpr-matic-mainnet/version/latest> |QmPPWzZ8PStSAPgJ8bLiMyQdhxjpJD6ZiSGdBKooH2xqLh | QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b |
 | Mumbai (Hosted Service) | <https://thegraph.com/hosted-service/subgraph/decentraland/tpr-matic-mumbai>  | QmTJR2JMzxvTfUgXaGSPdEcsnb2R5sTUyKS5DuZEMhvMoq | -        |
 | Amoy (Satsuma)          | <https://subgraph.satsuma-prod.com/decentraland/tpr-matic-amoy/playground>    | Qmaoc94XZtiTDmZPczvW8tZAvc5BERbvNCuVcSTGsMbitm | -        |
 
