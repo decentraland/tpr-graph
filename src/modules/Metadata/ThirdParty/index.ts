@@ -55,12 +55,12 @@ function buildThirdPartyLinkedContractsMetadata(
     let contract = contracts[i].split('-')
 
     if (contract.length === 2) {
-      const linkedContractId = contract[0] + '-' + contract[1]
+      const linkedContractId = toLowerCase(contract[0] + '-' + contract[1])
       let linkedContract = LinkedContracts.load(linkedContractId)
       if (!linkedContract) {
         linkedContract = new LinkedContracts(linkedContractId)
-        linkedContract.network = contract[0]
-        linkedContract.address = contract[1]
+        linkedContract.network = toLowerCase(contract[0])
+        linkedContract.address = toLowerCase(contract[1])
         linkedContract.save()
       }
 
