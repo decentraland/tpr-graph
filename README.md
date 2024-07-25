@@ -4,7 +4,7 @@
 | -------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------------------- |
 | Matic (Satsuma)      | <https://subgraph.satsuma-prod.com/decentraland/tpr-matic-mainnet/playground>  | QmPPWzZ8PStSAPgJ8bLiMyQdhxjpJD6ZiSGdBKooH2xqLh | QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b |
 | Matic (Graph Studio) | <https://api.studio.thegraph.com/query/76933/tpr-matic-mainnet/version/latest> | QmPPWzZ8PStSAPgJ8bLiMyQdhxjpJD6ZiSGdBKooH2xqLh | QmVbwGkYWs8JvUoyyfQbsyfVzTBHvZA5oLkCChGPUpYU8b |
-| Amoy (Satsuma)       | <https://subgraph.satsuma-prod.com/decentraland/tpr-matic-amoy/playground>     | Qmaoc94XZtiTDmZPczvW8tZAvc5BERbvNCuVcSTGsMbitm | -                                              |
+| Amoy (Satsuma)       | <https://subgraph.satsuma-prod.com/decentraland/tpr-matic-amoy/playground>     | QmSem1VkB2HGZky7S3hBzaryyisbvWvYqJpcBTjvV3jzZC | Qmaoc94XZtiTDmZPczvW8tZAvc5BERbvNCuVcSTGsMbitm |
 
 Using [The Graph](https://thegraph.com) and [Satsuma](https://www.satsuma.xyz/)
 
