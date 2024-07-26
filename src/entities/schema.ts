@@ -76,17 +76,21 @@ export class ThirdParty extends Entity {
     this.set("rawMetadata", Value.fromString(value));
   }
 
-  get resolver(): string {
+  get resolver(): string | null {
     let value = this.get("resolver");
     if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
+      return null;
     } else {
       return value.toString();
     }
   }
 
-  set resolver(value: string) {
-    this.set("resolver", Value.fromString(value));
+  set resolver(value: string | null) {
+    if (!value) {
+      this.unset("resolver");
+    } else {
+      this.set("resolver", Value.fromString(<string>value));
+    }
   }
 
   get isApproved(): boolean {

@@ -2,7 +2,7 @@ type ThirdParty @entity {
   id: ID!
   managers: [String!]!
   rawMetadata: String!
-  resolver: String!
+  resolver: String
   isApproved: Boolean
   maxItems: BigInt!
   metadata: Metadata!

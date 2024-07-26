@@ -34,7 +34,14 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   thirdParty.root = ''
   thirdParty.consumedSlots = BigInt.zero()
 
-  thirdParty.resolver = event.params._resolver
+  if (
+    event.params._resolver.startsWith('https://') ||
+    event.params._resolver.startsWith('http://')
+  ) {
+    thirdParty.resolver = event.params._resolver
+  } else {
+    thirdParty.resolver = null
+  }
   thirdParty.rawMetadata = event.params._metadata
   thirdParty.maxItems = event.params._itemSlots
   thirdParty.isApproved = isApproved && !!thirdParty.root
@@ -75,7 +82,14 @@ export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
     return
   }
 
-  thirdParty.resolver = event.params._resolver
+  if (
+    event.params._resolver.startsWith('https://') ||
+    event.params._resolver.startsWith('http://')
+  ) {
+    thirdParty.resolver = event.params._resolver
+  } else {
+    thirdParty.resolver = null
+  }
   thirdParty.maxItems = thirdParty.maxItems.plus(event.params._itemSlots)
   thirdParty.rawMetadata = event.params._metadata
 
