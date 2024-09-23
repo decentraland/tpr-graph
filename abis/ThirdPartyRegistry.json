@@ -261,6 +261,80 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "_oldProgrammaticBasePurchasedSlots",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_newProgrammaticBasePurchasedSlots",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProgrammaticBasePurchasedSlotsSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_thirdPartyId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_metadata",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_resolver",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "_isApproved",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "_managers",
+        "type": "address[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_itemSlots",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "_isProgrammatic",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_sender",
+        "type": "address"
+      }
+    ],
+    "name": "ThirdPartyAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "string",
         "name": "_thirdPartyId",
         "type": "string"
@@ -539,9 +613,19 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct ThirdPartyRegistryV2.ThirdPartyParam[]",
+        "internalType": "struct ThirdPartyRegistryV3.ThirdPartyParam[]",
         "name": "_thirdParties",
         "type": "tuple[]"
+      },
+      {
+        "internalType": "bool[]",
+        "name": "_areProgrammatic",
+        "type": "bool[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_maxPrices",
+        "type": "uint256[]"
       }
     ],
     "name": "addThirdParties",
@@ -620,7 +704,7 @@
             "type": "uint8"
           }
         ],
-        "internalType": "struct ThirdPartyRegistryV2.ConsumeSlotsParam[]",
+        "internalType": "struct ThirdPartyRegistryV3.ConsumeSlotsParam[]",
         "name": "_consumeSlotsParams",
         "type": "tuple[]"
       }
@@ -848,6 +932,25 @@
     "inputs": [
       {
         "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "isThirdPartyProgrammatic",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
         "name": "_thirdPartyId",
         "type": "string"
       },
@@ -919,7 +1022,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct ThirdPartyRegistryV2.Item",
+        "internalType": "struct ThirdPartyRegistryV3.Item",
         "name": "",
         "type": "tuple"
       }
@@ -974,6 +1077,19 @@
   },
   {
     "inputs": [],
+    "name": "programmaticBasePurchasedSlots",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -1016,12 +1132,12 @@
                 "type": "bool"
               }
             ],
-            "internalType": "struct ThirdPartyRegistryV2.ItemReviewParam[]",
+            "internalType": "struct ThirdPartyRegistryV3.ItemReviewParam[]",
             "name": "items",
             "type": "tuple[]"
           }
         ],
-        "internalType": "struct ThirdPartyRegistryV2.ThirdPartyReviewParam[]",
+        "internalType": "struct ThirdPartyRegistryV3.ThirdPartyReviewParam[]",
         "name": "_thirdParties",
         "type": "tuple[]"
       }
@@ -1071,7 +1187,7 @@
             "type": "uint8"
           }
         ],
-        "internalType": "struct ThirdPartyRegistryV2.ConsumeSlotsParam[]",
+        "internalType": "struct ThirdPartyRegistryV3.ConsumeSlotsParam[]",
         "name": "_consumeSlotsParams",
         "type": "tuple[]"
       }
@@ -1168,6 +1284,19 @@
       }
     ],
     "name": "setOracle",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_value",
+        "type": "uint256"
+      }
+    ],
+    "name": "setProgrammaticBasePurchasedSlots",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1350,7 +1479,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct ThirdPartyRegistryV2.ThirdPartyParam[]",
+        "internalType": "struct ThirdPartyRegistryV3.ThirdPartyParam[]",
         "name": "_thirdParties",
         "type": "tuple[]"
       }

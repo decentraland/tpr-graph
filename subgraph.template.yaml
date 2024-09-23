@@ -29,6 +29,8 @@ dataSources:
         - name: ThirdPartyRegistry
           file: ./abis/ThirdPartyRegistry.json
       eventHandlers:
+        - event: ThirdPartyAdded(string,string,string,bool,address[],uint256,bool,address)
+          handler: handleThirdPartyAdded
         - event: ThirdPartyAdded(string,string,string,bool,address[],uint256,address)
           handler: handleThirdPartyAdded
         - event: ThirdPartyUpdated(string,string,string,address[],bool[],uint256,address)
