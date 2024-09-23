@@ -8,6 +8,7 @@ type ThirdParty @entity {
   metadata: Metadata!
   root: String!
   consumedSlots: BigInt!
+  isProgrammatic: Boolean!
 
   # Searcheable fields
   searchName: String

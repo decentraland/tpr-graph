@@ -1,6 +1,7 @@
 import { BigInt, Address, log } from '@graphprotocol/graph-ts'
 import { Curation, Receipt, RegistryData, ThirdParty } from '../entities/schema'
 import {
+  ItemSlotPriceSet,
   ItemSlotsConsumed,
   ThirdPartyAdded,
   ThirdPartyAggregatorSet,
@@ -27,12 +28,14 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   }
 
   const isApproved = event.params._isApproved
+  const isProgrammatic = !!event.params._isProgrammatic
 
   let thirdParty = new ThirdParty(event.params._thirdPartyId)
 
   // Set Default values
   thirdParty.root = ''
   thirdParty.consumedSlots = BigInt.zero()
+  thirdParty.isProgrammatic = isProgrammatic
 
   if (
     event.params._resolver.startsWith('https://') ||

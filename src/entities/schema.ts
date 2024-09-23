@@ -158,6 +158,19 @@ export class ThirdParty extends Entity {
     this.set("consumedSlots", Value.fromBigInt(value));
   }
 
+  get isProgrammatic(): boolean {
+    let value = this.get("isProgrammatic");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set isProgrammatic(value: boolean) {
+    this.set("isProgrammatic", Value.fromBoolean(value));
+  }
+
   get searchName(): string | null {
     let value = this.get("searchName");
     if (!value || value.kind == ValueKind.NULL) {

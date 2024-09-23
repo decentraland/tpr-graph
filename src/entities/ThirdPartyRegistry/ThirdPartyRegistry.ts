@@ -284,6 +284,28 @@ export class OwnershipTransferred__Params {
   }
 }
 
+export class ProgrammaticBasePurchasedSlotsSet extends ethereum.Event {
+  get params(): ProgrammaticBasePurchasedSlotsSet__Params {
+    return new ProgrammaticBasePurchasedSlotsSet__Params(this);
+  }
+}
+
+export class ProgrammaticBasePurchasedSlotsSet__Params {
+  _event: ProgrammaticBasePurchasedSlotsSet;
+
+  constructor(event: ProgrammaticBasePurchasedSlotsSet) {
+    this._event = event;
+  }
+
+  get _oldProgrammaticBasePurchasedSlots(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _newProgrammaticBasePurchasedSlots(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class ThirdPartyAdded extends ethereum.Event {
   get params(): ThirdPartyAdded__Params {
     return new ThirdPartyAdded__Params(this);
@@ -294,6 +316,52 @@ export class ThirdPartyAdded__Params {
   _event: ThirdPartyAdded;
 
   constructor(event: ThirdPartyAdded) {
+    this._event = event;
+  }
+
+  get _thirdPartyId(): string {
+    return this._event.parameters[0].value.toString();
+  }
+
+  get _metadata(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get _resolver(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get _isApproved(): boolean {
+    return this._event.parameters[3].value.toBoolean();
+  }
+
+  get _managers(): Array<Address> {
+    return this._event.parameters[4].value.toAddressArray();
+  }
+
+  get _itemSlots(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get _isProgrammatic(): boolean {
+    return this._event.parameters[6].value.toBoolean();
+  }
+
+  get _sender(): Address {
+    return this._event.parameters[7].value.toAddress();
+  }
+}
+
+export class ThirdPartyAdded1 extends ethereum.Event {
+  get params(): ThirdPartyAdded1__Params {
+    return new ThirdPartyAdded1__Params(this);
+  }
+}
+
+export class ThirdPartyAdded1__Params {
+  _event: ThirdPartyAdded1;
+
+  constructor(event: ThirdPartyAdded1) {
     this._event = event;
   }
 
@@ -817,6 +885,29 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  isThirdPartyProgrammatic(param0: string): boolean {
+    let result = super.call(
+      "isThirdPartyProgrammatic",
+      "isThirdPartyProgrammatic(string):(bool)",
+      [ethereum.Value.fromString(param0)],
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_isThirdPartyProgrammatic(param0: string): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "isThirdPartyProgrammatic",
+      "isThirdPartyProgrammatic(string):(bool)",
+      [ethereum.Value.fromString(param0)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   itemIdByIndex(_thirdPartyId: string, _index: BigInt): string {
     let result = super.call(
       "itemIdByIndex",
@@ -958,6 +1049,29 @@ export class ThirdPartyRegistry extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  programmaticBasePurchasedSlots(): BigInt {
+    let result = super.call(
+      "programmaticBasePurchasedSlots",
+      "programmaticBasePurchasedSlots():(uint256)",
+      [],
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_programmaticBasePurchasedSlots(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "programmaticBasePurchasedSlots",
+      "programmaticBasePurchasedSlots():(uint256)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   thirdParties(param0: string): ThirdPartyRegistry__thirdPartiesResult {
     let result = super.call(
       "thirdParties",
@@ -1090,6 +1204,14 @@ export class AddThirdPartiesCall__Inputs {
 
   get _thirdParties(): Array<AddThirdPartiesCall_thirdPartiesStruct> {
     return this._call.inputValues[0].value.toTupleArray<AddThirdPartiesCall_thirdPartiesStruct>();
+  }
+
+  get _areProgrammatic(): Array<boolean> {
+    return this._call.inputValues[1].value.toBooleanArray();
+  }
+
+  get _maxPrices(): Array<BigInt> {
+    return this._call.inputValues[2].value.toBigIntArray();
   }
 }
 
@@ -1679,6 +1801,36 @@ export class SetOracleCall__Outputs {
   _call: SetOracleCall;
 
   constructor(call: SetOracleCall) {
+    this._call = call;
+  }
+}
+
+export class SetProgrammaticBasePurchasedSlotsCall extends ethereum.Call {
+  get inputs(): SetProgrammaticBasePurchasedSlotsCall__Inputs {
+    return new SetProgrammaticBasePurchasedSlotsCall__Inputs(this);
+  }
+
+  get outputs(): SetProgrammaticBasePurchasedSlotsCall__Outputs {
+    return new SetProgrammaticBasePurchasedSlotsCall__Outputs(this);
+  }
+}
+
+export class SetProgrammaticBasePurchasedSlotsCall__Inputs {
+  _call: SetProgrammaticBasePurchasedSlotsCall;
+
+  constructor(call: SetProgrammaticBasePurchasedSlotsCall) {
+    this._call = call;
+  }
+
+  get _value(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetProgrammaticBasePurchasedSlotsCall__Outputs {
+  _call: SetProgrammaticBasePurchasedSlotsCall;
+
+  constructor(call: SetProgrammaticBasePurchasedSlotsCall) {
     this._call = call;
   }
 }
