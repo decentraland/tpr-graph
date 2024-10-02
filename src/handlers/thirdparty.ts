@@ -1,23 +1,38 @@
-import { BigInt, Address, log } from '@graphprotocol/graph-ts'
+import { BigInt, log } from '@graphprotocol/graph-ts'
 import { Curation, Receipt, RegistryData, ThirdParty } from '../entities/schema'
 import {
-  ItemSlotPriceSet,
   ItemSlotsConsumed,
   ThirdPartyAdded,
+  ThirdPartyAdded1,
   ThirdPartyAggregatorSet,
   ThirdPartyItemSlotsBought,
   ThirdPartyReviewed,
   ThirdPartyReviewedWithRoot,
   ThirdPartyUpdated
 } from '../entities/ThirdPartyRegistry/ThirdPartyRegistry'
-import {
-  buildCountFromCuration,
-  buildCountFromReceipt,
-  buildCountFromThirdParty
-} from '../modules/Count'
-import { isURNValid } from '../modules/ThirdParty'
+import { buildCountFromCuration, buildCountFromReceipt } from '../modules/Count'
+import { addThirdParty, isURNValid } from '../modules/ThirdParty'
 import { buildMetadata } from '../modules/Metadata'
 import { setThirdPartySearchFields } from '../modules/Metadata/ThirdParty'
+
+export function handleLegacyThirdPartyAdded(event: ThirdPartyAdded1): void {
+  if (!isURNValid(event.params._thirdPartyId)) {
+    log.error('A third party was added with an invalid URN as an id "{}"', [
+      event.params._thirdPartyId
+    ])
+    return
+  }
+
+  addThirdParty(
+    event.params._thirdPartyId,
+    event.params._isApproved,
+    false,
+    event.params._resolver,
+    event.params._metadata,
+    event.params._itemSlots,
+    event.params._managers
+  )
+}
 
 export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
   if (!isURNValid(event.params._thirdPartyId)) {
@@ -27,47 +42,15 @@ export function handleThirdPartyAdded(event: ThirdPartyAdded): void {
     return
   }
 
-  const isApproved = event.params._isApproved
-  const isProgrammatic = !!event.params._isProgrammatic
-
-  let thirdParty = new ThirdParty(event.params._thirdPartyId)
-
-  // Set Default values
-  thirdParty.root = ''
-  thirdParty.consumedSlots = BigInt.zero()
-  thirdParty.isProgrammatic = isProgrammatic
-
-  if (
-    event.params._resolver.startsWith('https://') ||
-    event.params._resolver.startsWith('http://')
-  ) {
-    thirdParty.resolver = event.params._resolver
-  } else {
-    thirdParty.resolver = null
-  }
-  thirdParty.rawMetadata = event.params._metadata
-  thirdParty.maxItems = event.params._itemSlots
-  thirdParty.isApproved = isApproved && !!thirdParty.root
-
-  let managers = new Array<string>()
-  let eventManagers = event.params._managers
-  let eventManagersLength = event.params._managers.length
-
-  for (let i = 0; i < eventManagersLength; i++) {
-    let m = eventManagers.pop()
-    managers.push((m as Address).toHexString())
-  }
-  thirdParty.managers = managers
-
-  let metadata = buildMetadata(thirdParty.id, thirdParty.rawMetadata)
-  thirdParty.metadata = metadata.id
-
-  thirdParty = setThirdPartySearchFields(thirdParty)
-
-  thirdParty.save()
-
-  let metric = buildCountFromThirdParty()
-  metric.save()
+  addThirdParty(
+    event.params._thirdPartyId,
+    event.params._isApproved,
+    !!event.params._isProgrammatic,
+    event.params._resolver,
+    event.params._metadata,
+    event.params._itemSlots,
+    event.params._managers
+  )
 }
 
 export function handleThirdPartyUpdated(event: ThirdPartyUpdated): void {
