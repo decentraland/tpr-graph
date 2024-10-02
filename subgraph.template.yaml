@@ -32,7 +32,7 @@ dataSources:
         - event: ThirdPartyAdded(string,string,string,bool,address[],uint256,bool,address)
           handler: handleThirdPartyAdded
         - event: ThirdPartyAdded(string,string,string,bool,address[],uint256,address)
-          handler: handleThirdPartyAdded
+          handler: handleLegacyThirdPartyAdded
         - event: ThirdPartyUpdated(string,string,string,address[],bool[],uint256,address)
           handler: handleThirdPartyUpdated
         - event: ThirdPartyItemSlotsBought(string,uint256,uint256,address)
